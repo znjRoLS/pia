@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <div class="loginmodal-container">
+        <h:form>
+            <h:panelGrid columns="3">
+              #{msgs.promptUsername}  
+              <h:inputText id="name" value="#{login.username}" required="true"
+                           requiredMessage="Niste uneli korisnicko ime"
+                           validator="#{login.ValidateUsername}"/>
+              <h:message for="name" class="error-text" />
+
+              #{msgs.promptPassword}
+              <h:inputSecret id="pass" value="#{login.password}" required="true"
+                             requiredMessage="Niste uneli lozinku"/>
+              <h:message for="pass" class="error-text" />
+            </h:panelGrid>
+            <h:commandButton class="login loginmodal-submit" value="Uloguj se" action="#{login.TryLogin}"/>
+        </h:form>
+      </div>
+</html>
+
