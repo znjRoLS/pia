@@ -104,5 +104,6 @@ and open the template in the editor.
 }
 
 .error-text{
-    color:red;
+    position:absolute;
+    margin-top:-30px;
 }

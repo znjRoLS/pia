@@ -5,7 +5,7 @@
  */
 package Model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.*;
 
@@ -15,6 +15,49 @@ import org.hibernate.*;
  */
 public class User {
     
+    public static int addUser(User user) {
+      Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      Integer userID = null;
+      try{
+         tx = session.beginTransaction();
+         userID = (Integer) session.save(user); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      return userID;
+    }
+    
+    public static User FindByEmail(String email) {
+        User user = null;
+      Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+        tx = session.beginTransaction();
+         
+        String cmd = "FROM User E WHERE E.email = :email";
+        Query query = session.createQuery(cmd);
+        query.setParameter("email",email);
+        List results = query.list();
+        if (results.size() > 0) {
+            user = (User) results.get(0);
+        }
+         
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return user;
+    }
+    
     public static User FindByUsername(String username) {
         User user = null;
       Session session = HibernateHelper.getFactory().openSession();
@@ -22,7 +65,7 @@ public class User {
       try{
         tx = session.beginTransaction();
          
-        String cmd = "FROM USER E WHERE E.username = :username";
+        String cmd = "FROM User E WHERE E.username = :username";
         Query query = session.createQuery(cmd);
         query.setParameter("username",username);
         List results = query.list();
@@ -54,10 +97,10 @@ public class User {
     private UserType type;
     private boolean enabled;
 
-    public User(int id, String first_name, String second_name, String username, String password, String phone, String email, Date created, UserType type, boolean enabled) {
+    public User(int id, String first_name, String last_name, String username, String password, String phone, String email, Date created, UserType type, boolean enabled) {
         this.id = id;
         this.first_name = first_name;
-        this.second_name = second_name;
+        this.last_name = last_name;
         this.username = username;
         this.password = password;
         this.phone = phone;

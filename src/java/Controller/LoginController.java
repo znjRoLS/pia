@@ -13,6 +13,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.http.HttpSession;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 /**
  *
@@ -55,7 +58,23 @@ public class LoginController {
         
         return "login";
     }
+    
+    public String logout() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        session.invalidate();
+        return "index";
+    }
 
+    public boolean isLogged_in() {
+        return logged_in;
+    }
+
+    public void setLogged_in(boolean logged_in) {
+        this.logged_in = logged_in;
+    }
+
+    
+    
     public String getUsername() {
         return username;
     }
