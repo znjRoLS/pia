@@ -6,17 +6,22 @@
      <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">WebSiteName</a>
+            <a class="navbar-brand" href="#">Muzix! Ticket sales for music events!</a>
           </div>
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            
-            <li><h:link outcome="login" rendered="#{!login.logged_in}">Login</h:link></li>
-            <li><h:link outcome="register" rendered="#{!login.logged_in}">Register</h:link></li>
-           <h:panelGroup rendered="#{!login.logged_in}">
-<!--                <li><a href="#" data-toggle="modal" data-target="#register_modal" >Register2</a></li>-->
+            <li id="navbar_index"><h:link outcome="index">Home</h:link></li>
+            <h:panelGroup rendered="#{!login.logged_in}">
+                <li id="navbar_login"><h:link outcome="login">Login</h:link></li>
+                <li id="navbar_register"><h:link outcome="register">Register</h:link></li>
             </h:panelGroup>
-            <li><h:link outcome="logout" rendered="#{login.logged_in}">Logout</h:link></li>
+           <h:panelGroup rendered="#{login.logged_in}">
+<!--                <li><a href="#" data-toggle="modal" data-target="#register_modal" >Register2</a></li>-->
+                <li id="navbar_logout">
+                    <h:form>
+                        <h:commandLink action="login.logout" rendered="#{login.logged_in}">Logout</h:commandLink>
+                    </h:form>
+                </li>
+           </h:panelGroup>
             <li><a href="#">Page 3</a></li>
           </ul>
         </div>

@@ -28,10 +28,12 @@ public class LoginController {
     private String password;
     private String message;
     private boolean logged_in = false;
+    private boolean all_valid = false;
     
     public void ValidateUsername(FacesContext fc, UIComponent c, Object value) {
-         
-        if (User.FindByUsername((String) value) == null) {
+        
+         all_valid = User.FindByUsername((String) value) != null;
+        if (!all_valid) {
              throw new ValidatorException(
 	         new FacesMessage("Username not recognized!"));
         }
@@ -65,6 +67,16 @@ public class LoginController {
         return "index";
     }
 
+    public boolean isAll_valid() {
+        return all_valid;
+    }
+
+    public void setAll_valid(boolean all_valid) {
+        this.all_valid = all_valid;
+    }
+
+    
+    
     public boolean isLogged_in() {
         return logged_in;
     }
