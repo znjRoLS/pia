@@ -5,12 +5,12 @@
  */
 package Model;
 
-import java.sql.Date;
-import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,16 +18,17 @@ import javax.persistence.Table;
  * @author rols
  */
 @Entity
-@Table(name= "MUSIC_EVENT")
-public class MusicEvent {
+@Table(name= "TICKET_TYPE")
+public class TicketType {
     @Id
     @Column(name = "id")
     @GeneratedValue
     private int id;
     private String name;
-    private String place;
-    private Date startDate;
-    private Date endDate;    
+    private int price;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    private MusicEvent music_event;
 
     public int getId() {
         return id;
@@ -47,29 +48,25 @@ public class MusicEvent {
         this.name = name;
     }
 
-    public String getPlace() {
-        return place;
+    public int getPrice() {
+        return price;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public MusicEvent getMusic_event() {
+        return music_event;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setMusic_event(MusicEvent music_event) {
+        this.music_event = music_event;
     }
 
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }  
+    
+    
+    
     
     
 }

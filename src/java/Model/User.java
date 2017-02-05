@@ -8,11 +8,20 @@ package Model;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author rols
  */
+@Entity
+@Table(name= "USER")
 public class User {
     
     public static int addUser(User user) {
@@ -29,6 +38,25 @@ public class User {
       }finally {
          session.close(); 
       }
+      
+//      TicketType type = new TicketType();
+//      type.setName("blah");
+//      type.setPrice(2);
+//      
+//      session = HibernateHelper.getFactory().openSession();
+//      tx = null;
+//      userID = null;
+//      try{
+//         tx = session.beginTransaction();
+//         userID = (Integer) session.save(type); 
+//         tx.commit();
+//      }catch (HibernateException e) {
+//         if (tx!=null) tx.rollback();
+//         e.printStackTrace(); 
+//      }finally {
+//         session.close(); 
+//      }
+      
       return userID;
     }
     
@@ -86,7 +114,11 @@ public class User {
     
     public static enum UserType { ADMIN, USER };
     
+    @Id
+    @Column(name = "id")
+    @GeneratedValue
     private int id;
+    
     private String first_name;
     private String last_name;
     private String username;
