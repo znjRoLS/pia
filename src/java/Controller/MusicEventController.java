@@ -5,10 +5,13 @@
  */
 package Controller;
 
+import Model.MusicEvent;
+import java.util.ArrayList;
+
 /**
  *
  * @author rols
  */
 public class MusicEventController {
-    
+    private ArrayList<MusicEvent> fiveMostSold;
 }

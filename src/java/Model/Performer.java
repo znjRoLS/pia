@@ -32,7 +32,6 @@ public class Performer {
     private Date endDate;
     private Time startTime;
     private Time endTime;
-    
     @ManyToOne(cascade = CascadeType.ALL)
     private MusicEvent musicEvent;
 
