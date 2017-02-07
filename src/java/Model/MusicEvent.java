@@ -5,7 +5,7 @@
  */
 package Model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,8 +36,6 @@ public class MusicEvent {
     public void setId(int id) {
         this.id = id;
     }
-
-    
     
     public String getName() {
         return name;

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/base_layout.xhtml">	
+        <ui:define name="content">
+            
+            <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+                <fieldset>
+
+                <!-- Form Name -->
+                <legend>Enter new festival data!</legend>
+
+                <!-- Text input-->
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Name</label>  
+                  <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <p:inputText value="#{festival.musicEvent.name}" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Place</label>  
+                  <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <p:inputText value="#{festival.musicEvent.place}" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Start date</label>  
+                  <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <p:calendar id="start_date" value="#{festival.musicEvent.startDate}" mode="popup" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-md-4 control-label">End date</label>  
+                  <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <p:calendar id="end_date" value="#{festival.musicEvent.endDate}" mode="popup" />
+                    </div>
+                  </div>
+                </div>
+                
+                <p:dataList id="ticket_type_list" var="ticketType" value="#{festival.ticketTypes}" >
+                    <f:facet name="header">
+                        Ticket Type
+                    </f:facet>
+                    <label>Name</label>
+                    <p:inputText value="#{ticketType.name}"  />
+                    <label>Price</label>
+                    <p:inputNumber value="#{ticketType.price}"  />
+                    Brand: #{car.brand}, Year: #{car.year}
+                    <f:facet name="description">
+                        <p:graphicImage name="demo/images/car/#{car.brand}.gif"/> 
+                    </f:facet>
+
+                </p:dataList>
+                
+                <p:commandButton value="Add new ticket type" action="#{festival.addTicketType()}" update="ticket_type_list" />
+                </fieldset>
+            </form>
+        </ui:define>
+    </ui:composition>
+</html>
+
