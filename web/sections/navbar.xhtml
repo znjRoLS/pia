@@ -10,19 +10,23 @@
           </div>
           <ul class="nav navbar-nav">
             <li id="navbar_index"><h:link outcome="index">Home</h:link></li>
-            <h:panelGroup rendered="#{!login.logged_in}">
+            <h:panelGroup rendered="#{!login.loggedIn}">
                 <li id="navbar_login"><h:link outcome="login">Login</h:link></li>
                 <li id="navbar_register"><h:link outcome="register">Register</h:link></li>
             </h:panelGroup>
-           <h:panelGroup rendered="#{login.logged_in}">
+           <h:panelGroup rendered="#{login.loggedIn}">
 <!--                <li><a href="#" data-toggle="modal" data-target="#register_modal" >Register2</a></li>-->
                 <li id="navbar_logout">
                     <h:form>
-                        <h:commandLink action="login.logout" rendered="#{login.logged_in}">Logout</h:commandLink>
+                        <h:commandLink action="login.logout" rendered="#{login.loggedIn}">Logout</h:commandLink>
                     </h:form>
                 </li>
            </h:panelGroup>
-            <li><a href="#">Page 3</a></li>
+            
+            <h:panelGroup rendered="#{login.loggedIn and login.userType==ADMIN}">
+               <li id="navbar_registrations"><h:link outcome="registrations">Registrations</h:link></li>
+           </h:panelGroup>
+          <li><a href="#">Page 3</a></li>
           </ul>
         </div>
       </nav>

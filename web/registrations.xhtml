@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+<f:event type="preRenderView" listener="#{login.lockForAdmin()}" />
+    
+<ui:composition template="/templates/base_layout.xhtml">	
+    <ui:define name="content">
+        <!-- todo: add notification that sth is enabled or deleted -->
+        <p:dataTable id="user_column" var="user" value="#{admin.verificationAwaitingUsers}">
+            <!--  todo: add other columns -->
+            <p:column headerText="username">
+                <h:outputText value="#{user.username}" />
+            </p:column>
+            
+            <p:column headerText="Enable or disable">
+                <p:commandButton value="Enable" action="#{admin.enable(user.id)}" update="user_column" />
+                <p:commandButton value="Disable" action="#{admin.disable(user.id)}" update="user_column" />
+            </p:column>
+            
+        </p:dataTable>
+    </ui:define>
+</ui:composition>
+</html>
+

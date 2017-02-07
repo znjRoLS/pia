@@ -6,11 +6,13 @@
 package Controller;
 
 import Model.User;
+import java.io.IOException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
@@ -27,13 +29,14 @@ public class LoginController {
     private String username;
     private String password;
     private String message;
-    private boolean logged_in = false;
-    private boolean all_valid = false;
+    private boolean loggedIn = false;
+    private boolean allValid = false;
+    private User.UserType userType;
     
     public void ValidateUsername(FacesContext fc, UIComponent c, Object value) {
         
-         all_valid = User.FindByUsername((String) value) != null;
-        if (!all_valid) {
+         allValid = User.FindByUsername((String) value) != null;
+        if (!allValid) {
              throw new ValidatorException(
 	         new FacesMessage("Username not recognized!"));
         }
@@ -50,7 +53,7 @@ public class LoginController {
              return "login";
         }
         
-        logged_in = true;
+        loggedIn = true;
         switch(user.getUserType()) {
             case ADMIN:
                 return "home_admin";
@@ -67,22 +70,30 @@ public class LoginController {
         return "index";
     }
 
-    public boolean isAll_valid() {
-        return all_valid;
+    public void lockForAdmin() throws IOException {
+        if (userType != User.UserType.ADMIN) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
+        }
+    }
+    
+    
+    public boolean isAllValid() {
+        return allValid;
     }
 
-    public void setAll_valid(boolean all_valid) {
-        this.all_valid = all_valid;
+    public void setAllValid(boolean allValid) {
+        this.allValid = allValid;
     }
 
     
     
-    public boolean isLogged_in() {
-        return logged_in;
+    public boolean isLoggedIn() {
+        return loggedIn;
     }
 
-    public void setLogged_in(boolean logged_in) {
-        this.logged_in = logged_in;
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     
@@ -102,6 +113,23 @@ public class LoginController {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public User.UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(User.UserType userType) {
+        this.userType = userType;
+    }
+    
     
     
 }

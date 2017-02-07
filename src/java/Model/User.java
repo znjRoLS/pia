@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.*;
@@ -24,10 +25,68 @@ import javax.persistence.Table;
 @Table(name= "USER")
 public class User {
     
+    public static List<User> getNotVerified() {
+      List<User> users = null;
+        
+      Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      Integer userID = null;
+      try{
+        tx = session.beginTransaction();
+         
+        String cmd = "FROM User E WHERE E.enabled <> true";
+        Query query = session.createQuery(cmd);
+        users = query.list();
+  
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return users;
+    }
+    
+    public static void deleteUser(int id) {
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         User user = new User();
+         user.setId(id);
+         session.delete(user); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+        
+    }
+    
+    public static void deleteUser(User user) {
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         session.delete(user); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+    }
+    
     public static int addUser(User user) {
       Session session = HibernateHelper.getFactory().openSession();
       Transaction tx = null;
       Integer userID = null;
+      user.enabled = false;
       try{
          tx = session.beginTransaction();
          userID = (Integer) session.save(user); 
@@ -39,25 +98,52 @@ public class User {
          session.close(); 
       }
       
-//      TicketType type = new TicketType();
-//      type.setName("blah");
-//      type.setPrice(2);
-//      
-//      session = HibernateHelper.getFactory().openSession();
-//      tx = null;
-//      userID = null;
-//      try{
-//         tx = session.beginTransaction();
-//         userID = (Integer) session.save(type); 
-//         tx.commit();
-//      }catch (HibernateException e) {
-//         if (tx!=null) tx.rollback();
-//         e.printStackTrace(); 
-//      }finally {
-//         session.close(); 
-//      }
-      
       return userID;
+    }
+    
+    public void enable(){
+      Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      Integer userID = null;
+      
+      enabled = true;
+      
+      try{
+         tx = session.beginTransaction();
+         session.merge(this); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+    }
+    
+    public static User FindById(int id) {
+        User user = null;
+      Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+        tx = session.beginTransaction();
+         
+        String cmd = "FROM User E WHERE E.id = :id";
+        Query query = session.createQuery(cmd);
+        query.setParameter("id",id);
+        List results = query.list();
+        if (results.size() > 0) {
+            user = (User) results.get(0);
+        }
+         
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return user;
     }
     
     public static User FindByEmail(String email) {
