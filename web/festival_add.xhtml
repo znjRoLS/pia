@@ -64,15 +64,18 @@
                     <p:inputText value="#{ticketType.name}"  />
                     <label>Price</label>
                     <p:inputNumber value="#{ticketType.price}"  />
-                    Brand: #{car.brand}, Year: #{car.year}
+<!--                    Brand: #{car.brand}, Year: #{car.year}
                     <f:facet name="description">
                         <p:graphicImage name="demo/images/car/#{car.brand}.gif"/> 
-                    </f:facet>
+                    </f:facet>-->
 
                 </p:dataList>
                 
                 <p:commandButton value="Add new ticket type" action="#{festival.addTicketType()}" update="ticket_type_list" />
                 </fieldset>
+                
+                <p:commandButton id="add_button" class="login loginmodal-submit" value="Create" action="#{festival.addFestival()}"
+                                 />
             </form>
         </ui:define>
     </ui:composition>

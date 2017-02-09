@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.HibernateHelper;
 import Model.MusicEvent;
 import Model.Performer;
 import Model.SocialNetwork;
@@ -14,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -32,6 +37,26 @@ public class MusicEventController {
         ticketTypes = new ArrayList<>();
         socialNetworks = new ArrayList<>();
         performers = new ArrayList<>();
+    }
+    
+    public void addFestival() {
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      Integer userID = null;
+      try{
+        tx = session.beginTransaction();
+         
+        String cmd = "FROM User E WHERE E.enabled <> true";
+        Query query = session.createQuery(cmd);
+        users = query.list();
+  
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
     }
     
     public void addTicketType() {
