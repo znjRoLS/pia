@@ -5,3 +5,5 @@ dist/
 nbdist/
 .nb-gradle/
 /vendor
+
+*.DS_Store

@@ -39,17 +39,32 @@ public class MusicEventController {
         performers = new ArrayList<>();
     }
     
-    public void addFestival() {
+    
+    
+    public String addFestival() {
         Session session = HibernateHelper.getFactory().openSession();
       Transaction tx = null;
       Integer userID = null;
       try{
         tx = session.beginTransaction();
          
-        String cmd = "FROM User E WHERE E.enabled <> true";
-        Query query = session.createQuery(cmd);
-        users = query.list();
+        for(TicketType ticketType : ticketTypes) {
+            session.save(ticketType);
+        }
   
+        for(Performer ticketType : performers) {
+            session.save(ticketType);
+        }
+        for(SocialNetwork ticketType : socialNetworks) {
+            session.save(ticketType);
+        }
+        
+        musicEvent.setSold(0);
+        musicEvent.setViewed(0);
+        
+        session.save(musicEvent);
+        
+        
         tx.commit();
       }catch (HibernateException e) {
          if (tx!=null) tx.rollback();
@@ -57,14 +72,12 @@ public class MusicEventController {
       }finally {
          session.close(); 
       }
+      
+      return "index";
     }
     
     public void addTicketType() {
-        System.out.println("yep, here");
-        System.out.println("num " + ticketTypes.size());
-        
         ticketTypes.add(new TicketType());
-        System.out.println("num " + ticketTypes.size());
     }
     
     public void addSocialNetwork() {

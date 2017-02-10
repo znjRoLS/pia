@@ -72,6 +72,75 @@
                 </p:dataList>
                 
                 <p:commandButton value="Add new ticket type" action="#{festival.addTicketType()}" update="ticket_type_list" />
+                
+                <p:dataList id="social_network_list" var="socialNetwork" value="#{festival.socialNetworks}" >
+                    <f:facet name="header">
+                        Social Network
+                    </f:facet>
+                    <label>Name</label>
+                    <p:inputText value="#{socialNetwork.name}"  />
+                    <label>Url</label>
+                    <p:inputNumber value="#{socialNetwork.url}"  />
+<!--                    Brand: #{car.brand}, Year: #{car.year}
+                    <f:facet name="description">
+                        <p:graphicImage name="demo/images/car/#{car.brand}.gif"/> 
+                    </f:facet>-->
+
+                </p:dataList>
+                
+                <p:commandButton value="Add new ticket type" action="#{festival.addSocialNetwork()}" update="social_network_list" />
+                
+                <p:dataList id="performer_list" var="performers" value="#{festival.performers}" >
+                    <f:facet name="header">
+                        Performer
+                    </f:facet>
+                    <label>Name</label>
+                    <p:inputText value="#{performer.name}"  />
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Start date</label>  
+                        <div class="col-md-4 inputGroupContainer">
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                              <p:calendar id="start_date" value="#{performer.startDate}" mode="popup" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">End date</label>  
+                        <div class="col-md-4 inputGroupContainer">
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                              <p:calendar id="end_date" value="#{performer.endDate}" mode="popup" />
+                          </div>
+                        </div>
+                      </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Start time</label>  
+                        <div class="col-md-4 inputGroupContainer">
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                              <p:calendar id="start_time" value="#{performer.startTime}" mode="time" />
+                          </div>
+                        </div>
+                      </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">End time</label>  
+                        <div class="col-md-4 inputGroupContainer">
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                              <p:calendar id="end_time" value="#{performer.endTime}" mode="time" />
+                          </div>
+                        </div>
+                      </div>
+
+                </p:dataList>
+                
+                <p:commandButton value="Add new ticket type" action="#{festival.addPerformer()}" update="performer_list" />
+                
+                
                 </fieldset>
                 
                 <p:commandButton id="add_button" class="login loginmodal-submit" value="Create" action="#{festival.addFestival()}"

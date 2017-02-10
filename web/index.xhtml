@@ -10,15 +10,14 @@
     
 <ui:composition template="/templates/base_layout.xhtml">	
    <ui:define name="content">
-        
+       <h:form>
+           
        <div class="container">
 	<div class="row">
 		<div class="col-md-12">
             <div class="input-group" id="adv-search">
-                <input type="text" class="form-control" placeholder="Search for events" />
-                <h:inputText id="search_text" value="#{search.search_text}" required="false">
-                  <f:ajax event="blur" render="festivals_list" />
-                </h:inputText>
+<!--                <input type="text" class="form-control" placeholder="Search for events" />-->
+                <h:inputText id="search_text" value="#{search.searchText}" required="false"/>
                 
                 <div class="input-group-btn">
                     <div class="btn-group" role="group">
@@ -47,22 +46,20 @@
                                   <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                 </form>
                             </div>
-                        </div>
-                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </div><span class="glyphicon glyphicon-search" aria-hidden="true"> </span>
+                        <p:commandButton action="#{search.filterEvents()}"  class="btn btn-primary" value="Search" update="search_results" />
                     </div>
                 </div>
             </div>
           </div>
-        </div>
+        </div>                
            
-           <div id="results" class="row" >
-               <ui:repeat id="festivals_list" var="fest" value="#{search.filtered_events}">
-                    Naziv: <h:link value="#{fest.name}" outcome="rezervisi?naziv=#{fest.name}"/> <br/>
-
-                </ui:repeat>
-               
-           </div>
+           <p:dataList id="search_results" var="musicEvent" value="#{search.filteredEvents}" >
+                    Naziv: <h:link value="#{musicEvent.name}" outcome="rezervisi?naziv=#{musicEvent.name}"/> <br/>
+           </p:dataList>
     </div>		
+           
+       </h:form>
    </ui:define>
 </ui:composition>
 </html>
