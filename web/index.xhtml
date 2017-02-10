@@ -55,7 +55,10 @@
         </div>                
            
            <p:dataList id="search_results" var="musicEvent" value="#{search.filteredEvents}" >
-                    Naziv: <h:link value="#{musicEvent.name}" outcome="rezervisi?naziv=#{musicEvent.name}"/> <br/>
+                    Naziv: <h:outputLabel value="#{musicEvent.name}"/> <br/>
+                    <h:button id="lnkHidden" value=" Show Fest " outcome="festival_show">
+                    <f:param name="id" value="#{musicEvent.id}" />
+                   </h:button>
            </p:dataList>
     </div>		
            

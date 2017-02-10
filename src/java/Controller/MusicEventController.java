@@ -27,6 +27,9 @@ import org.hibernate.Transaction;
 @ManagedBean(name="festival")
 @ViewScoped
 public class MusicEventController {
+  
+    private String musicEventId;
+    
     private MusicEvent musicEvent;
     private List<TicketType> ticketTypes;
     private List<SocialNetwork> socialNetworks;
@@ -39,7 +42,25 @@ public class MusicEventController {
         performers = new ArrayList<>();
     }
     
-    
+    public void showMusicEvent() {
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+        tx = session.beginTransaction();
+         
+        musicEvent = (MusicEvent) session.get(MusicEvent.class, musicEventId);
+        ticketTypes = musicEvent.getTicketTypes();
+        performers = musicEvent.getPerformers();
+        socialNetworks = musicEvent.getSocialNetworks();
+  
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+    }
     
     public String addFestival() {
         Session session = HibernateHelper.getFactory().openSession();
@@ -49,13 +70,16 @@ public class MusicEventController {
         tx = session.beginTransaction();
          
         for(TicketType ticketType : ticketTypes) {
+            ticketType.setMusicEvent(musicEvent);
             session.save(ticketType);
         }
   
         for(Performer ticketType : performers) {
+            ticketType.setMusicEvent(musicEvent);
             session.save(ticketType);
         }
         for(SocialNetwork ticketType : socialNetworks) {
+            ticketType.setMusicEvent(musicEvent);
             session.save(ticketType);
         }
         
@@ -75,6 +99,16 @@ public class MusicEventController {
       
       return "index";
     }
+
+    public String getMusicEventId() {
+        return musicEventId;
+    }
+
+    public void setMusicEventId(String musicEventId) {
+        this.musicEventId = musicEventId;
+    }
+    
+    
     
     public void addTicketType() {
         ticketTypes.add(new TicketType());

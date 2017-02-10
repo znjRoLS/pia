@@ -8,8 +8,7 @@
     <ui:composition template="/templates/base_layout.xhtml">	
         <ui:define name="content">
             
-            <form class="well form-horizontal" action=" " method="post"  id="contact_form">
-                <fieldset>
+            <h:form class="well form-horizontal"  id="contact_form">
 
                 <!-- Form Name -->
                 <legend>Enter new festival data!</legend>
@@ -80,7 +79,7 @@
                     <label>Name</label>
                     <p:inputText value="#{socialNetwork.name}"  />
                     <label>Url</label>
-                    <p:inputNumber value="#{socialNetwork.url}"  />
+                    <p:inputText value="#{socialNetwork.link}"  />
 <!--                    Brand: #{car.brand}, Year: #{car.year}
                     <f:facet name="description">
                         <p:graphicImage name="demo/images/car/#{car.brand}.gif"/> 
@@ -90,7 +89,7 @@
                 
                 <p:commandButton value="Add new ticket type" action="#{festival.addSocialNetwork()}" update="social_network_list" />
                 
-                <p:dataList id="performer_list" var="performers" value="#{festival.performers}" >
+                <p:dataList id="performer_list" var="performer" value="#{festival.performers}" >
                     <f:facet name="header">
                         Performer
                     </f:facet>
@@ -101,7 +100,7 @@
                         <div class="col-md-4 inputGroupContainer">
                           <div class="input-group">
                               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:calendar id="start_date" value="#{performer.startDate}" mode="popup" />
+                              <p:calendar  value="#{performer.startDate}" mode="inline"  />
                           </div>
                         </div>
                       </div>
@@ -111,7 +110,7 @@
                         <div class="col-md-4 inputGroupContainer">
                           <div class="input-group">
                               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:calendar id="end_date" value="#{performer.endDate}" mode="popup" />
+                              <p:calendar  value="#{performer.endDate}" mode="inline" />
                           </div>
                         </div>
                       </div>
@@ -121,7 +120,7 @@
                         <div class="col-md-4 inputGroupContainer">
                           <div class="input-group">
                               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:calendar id="start_time" value="#{performer.startTime}" mode="time" />
+                              <p:calendar  value="#{performer.startTime}" mode="inline" pattern="HH:mm" timeOnly="true" />
                           </div>
                         </div>
                       </div>
@@ -131,7 +130,7 @@
                         <div class="col-md-4 inputGroupContainer">
                           <div class="input-group">
                               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:calendar id="end_time" value="#{performer.endTime}" mode="time" />
+                              <p:calendar  value="#{performer.endTime}" mode="inline" pattern="HH:mm" timeOnly="true" />
                           </div>
                         </div>
                       </div>
@@ -141,11 +140,9 @@
                 <p:commandButton value="Add new ticket type" action="#{festival.addPerformer()}" update="performer_list" />
                 
                 
-                </fieldset>
-                
                 <p:commandButton id="add_button" class="login loginmodal-submit" value="Create" action="#{festival.addFestival()}"
                                  />
-            </form>
+            </h:form>
         </ui:define>
     </ui:composition>
 </html>

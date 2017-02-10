@@ -5,8 +5,8 @@
  */
 package Model;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
+//import java.sql.Time;
 import javafx.scene.chart.PieChart;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,8 +30,8 @@ public class Performer {
     private String name;
     private Date startDate;
     private Date endDate;
-    private Time startTime;
-    private Time endTime;
+    private Date startTime;
+    private Date endTime;
     @ManyToOne(cascade = CascadeType.ALL)
     private MusicEvent musicEvent;
 
@@ -79,19 +79,19 @@ public class Performer {
         this.endDate = endDate;
     }
 
-    public Time getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
     

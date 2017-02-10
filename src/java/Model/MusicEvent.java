@@ -36,6 +36,75 @@ public class MusicEvent {
     private int viewed;
     private int sold;
 
+    public List<TicketType> getTicketTypes() {
+        List<TicketType> ticketTypes = null;
+        
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+        tx = session.beginTransaction();
+        
+        String cmd = "FROM TicketType E WHERE E.musicEvent == " + this.id;
+        Query query = session.createQuery(cmd);
+        ticketTypes = query.list();
+        
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return ticketTypes;
+    }
+    
+    public List<SocialNetwork> getSocialNetworks() {
+        List<SocialNetwork> socialNetwork = null;
+        
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+        tx = session.beginTransaction();
+        
+        String cmd = "FROM SocialNetwork E WHERE E.musicEvent == " + this.id;
+        Query query = session.createQuery(cmd);
+        socialNetwork = query.list();
+        
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return socialNetwork;
+    }
+    
+    public List<Performer> getPerformers() {
+        List<Performer> performer = null;
+        
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+        tx = session.beginTransaction();
+        
+        String cmd = "FROM Performer E WHERE E.musicEvent == " + this.id;
+        Query query = session.createQuery(cmd);
+        performer = query.list();
+        
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return performer;
+    }
+    
     public static List<MusicEvent> getMusicEvents() {
         List<MusicEvent> musicEvents = null;
         

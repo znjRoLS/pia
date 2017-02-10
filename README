@@ -1,0 +1,28 @@
+#-register
+#-login
+#-admin registracija odobravanje
+#-admin add festival
+#-search festivals
+#-festival show
+-festival reserve/otkazivanje rezervacije takodje
+-admin buy reserved ticket
+-block user after no buying
+-block user after not bying 3 times in 48hours
+- password change
+-advanced search festivals
+-neregistrovani korisnik - pet najbolje ocenjenih festivala
+-registrovani korisnik - pet najskorijih muzickih festivala
+-dont show finished events
+-slike i video fajlovi u vidu galerije
+-satnica izvodjaca po danima
+-reservations show (also bought), also otkazivanje
+-admin pet najpregledanijih i najkupljenijih festivala
+-festival edit
+-tickets i socialnetworks nije entity
+-  Унос фестивала треба реализовати у више корака (најмање три), тако да се форма за унос сатница извођача приказује након уноса датума одржавања и унос фајлова треба да буде реализован у засебном кораку.
+-ucitavanje iz predefinisanog fajla - komponenta steps
+-admin slanje poruka korisnicima u slucaju promene
+-admin pregled poslednjih 10 korisnika
+-korisnik nakon kupljene ulaznice rating 1-10, komentari
+-korisnik unos slika za festival i admin odobravanje
+-. Са леве стране треба буде приказан календар (као готова компонента). Одабиром неког дана на календару, кориснику треба приказати основне информације о свим догађајима који се одржавају тог дана (регистровани корисници могу и да оду на страницу неког фестивала, нерегистрованим корисницима то треба забранити)

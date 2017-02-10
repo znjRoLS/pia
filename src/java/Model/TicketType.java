@@ -28,7 +28,7 @@ public class TicketType {
     private int price;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    private MusicEvent music_event;
+    private MusicEvent musicEvent;
 
     public int getId() {
         return id;
@@ -56,12 +56,12 @@ public class TicketType {
         this.price = price;
     }
 
-    public MusicEvent getMusic_event() {
-        return music_event;
+    public MusicEvent getMusicEvent() {
+        return musicEvent;
     }
 
-    public void setMusic_event(MusicEvent music_event) {
-        this.music_event = music_event;
+    public void setMusicEvent(MusicEvent musicEvent) {
+        this.musicEvent = musicEvent;
     }
 
     
