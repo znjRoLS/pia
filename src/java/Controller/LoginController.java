@@ -96,6 +96,8 @@ public class LoginController {
                 return "home_admin";
             case USER:
                 return "home_user";
+            case MODERATOR:
+                return "home_user";
         }
         
         return "login";

@@ -22,6 +22,18 @@ import javax.faces.validator.ValidatorException;
 @SessionScoped
 public class RegisterController {
     
+    private String first_name;
+    private String last_name;
+    private String username;
+    private String password;
+//    private String password_repeat;
+    private String phone;
+    private String email;
+    
+    private boolean email_valid = false;
+    private boolean password_valid = false;
+    private boolean username_valid = false;
+    private boolean all_valid = false;
     
     public void ValidateUsername(FacesContext fc, UIComponent c, Object value) {
         username_valid = User.FindByUsername((String) value) == null;
@@ -42,7 +54,14 @@ public class RegisterController {
     }
     
     public void ValidatePassword(FacesContext fc, UIComponent c, Object value) {
-                
+        String password = (String) value;
+        String password_repeat = (String) c.getAttributes().get("passwordRepeat");
+
+        if (password == null || password_repeat == null) {
+            password_valid = true;
+            return;
+        }
+        
         password_valid = true;
         
         if (password.length() < 8) {
@@ -68,8 +87,7 @@ public class RegisterController {
             }
         }
         
-        String password = (String) value;
-        String password_repeat = (String) c.getAttributes().get("passwordRepeat");
+        
 
 //        System.out.println("repeat " + password_repeat + " pass " + password);
         
@@ -109,18 +127,6 @@ public class RegisterController {
     }
     
     
-    private String first_name;
-    private String last_name;
-    private String username;
-    private String password;
-//    private String password_repeat;
-    private String phone;
-    private String email;
-    
-    private boolean email_valid = false;
-    private boolean password_valid = false;
-    private boolean username_valid = false;
-    private boolean all_valid = false;
 
     public boolean isAll_valid() {
         return all_valid;

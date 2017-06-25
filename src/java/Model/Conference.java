@@ -1,0 +1,106 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Model;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+/**
+ *
+ * @author rols
+ */
+public class Conference {
+    /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+    private int conferenceId;
+    private String name;
+    private String place;
+    private Date startDate;
+    private Date endDate;
+    private Location location;
+    
+    @ElementCollection(targetClass=Integer.class)
+    private Set<ModeratorConference> moderators = new HashSet<ModeratorConference>(); //moderators
+
+    public int getConferenceId() {
+        return conferenceId;
+    }
+
+    public void setConferenceId(int conferenceId) {
+        this.conferenceId = conferenceId;
+    }
+
+    
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }  
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Set<ModeratorConference> getModerators() {
+        return moderators;
+    }
+
+    public void setModerators(Set<ModeratorConference> moderators) {
+        this.moderators = moderators;
+    }
+
+    
+
+    
+    
+    
+}

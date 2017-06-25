@@ -7,9 +7,12 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.*;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,6 +27,54 @@ import javax.persistence.Table;
 @Entity
 @Table(name= "USER")
 public class User {
+    
+    
+    public static enum UserType { ADMIN, MODERATOR, USER };
+    
+    private int id;
+    
+    private String first_name;
+    private String last_name;
+    private String username;
+    private String password;
+    private String phone;
+    private String email;
+    private Date created;
+    private UserType type;
+    private boolean enabled;
+    private boolean sex;
+    private String linkedin;
+    private Integer shirt_size;
+    private String institution;
+    
+    @ElementCollection(targetClass=Integer.class)
+    private Set<ModeratorConference> conferences = new HashSet<ModeratorConference>(); // for moderators
+    
+    
+    public static List<User> getModerators() {
+        List<User> users = null;
+        
+      Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      Integer userID = null;
+      try{
+        tx = session.beginTransaction();
+         
+        String cmd = "FROM User E WHERE E.enabled = true AND E.type = :moderator";
+        Query query = session.createQuery(cmd);
+        query.setParameter("moderator", UserType.MODERATOR.ordinal());
+        users = query.list();
+        
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return users;
+    }
     
     public void changePassword(String newPass) {
         Session session = HibernateHelper.getFactory().openSession();
@@ -219,26 +270,6 @@ public class User {
       return user;
     }
     
-    public static enum UserType { ADMIN, USER };
-    
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
-    private int id;
-    
-    private String first_name;
-    private String last_name;
-    private String username;
-    private String password;
-    private String phone;
-    private String email;
-    private Date created;
-    private UserType type;
-    private boolean enabled;
-    private boolean sex;
-    private String linkedin;
-    private Integer shirt_size;
-    private String institution;
 
     public User(int id, String first_name, String last_name, String username, String password, String phone, String email, Date created, UserType type, boolean enabled) {
         this.id = id;
@@ -371,6 +402,16 @@ public class User {
     public void setInstitution(String institution) {
         this.institution = institution;
     }
+
+    public Set<ModeratorConference> getConferences() {
+        return conferences;
+    }
+
+    public void setConferences(Set<ModeratorConference> conferences) {
+        this.conferences = conferences;
+    }
+
+    
     
     
 }

@@ -26,11 +26,12 @@
                 </li>
 <li id="navbar_change_password"><h:link outcome="login_pass">Change password</h:link></li>
            </h:panelGroup>
+           
             
             <!-- admin section -->
             <h:panelGroup rendered="#{login.loggedIn and login.userType==ADMIN}">
                <li id="navbar_registrations"><h:link outcome="registrations">Registrations</h:link></li>
-               <li id="navbar_festival_add"><h:link outcome="festival_add">Add festival</h:link></li>
+               <li id="navbar_festival_add"><h:link outcome="conference_add">Add conference</h:link></li>
            </h:panelGroup>
           <li><a href="#">Page 3</a></li>
           </ul>

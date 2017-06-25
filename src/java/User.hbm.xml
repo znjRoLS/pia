@@ -44,8 +44,8 @@ Contributor(s):
     <meta attribute="class-description">
        This class contains users. 
     </meta>
-    <id name="id" type="int" column="id">
-       <generator class="native"/>
+    <id name="id" type="int" column="user_id">
+       <generator class="identity"/>
     </id>
     <property name="first_name" column="first_name" type="string"/>
     <property name="last_name" column="last_name" type="string"/>
@@ -60,6 +60,23 @@ Contributor(s):
     <property name="linkedin" column="linkedin" type="string"/>
     <property name="shirt_size" column="shirt_size" type="integer"/>
     <property name="institution" column="institution" type="string"/>
+    
+<!--    <set name="conferences" table="conference_moderator" inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="CONFERENCE_ID" not-null="true" />
+        </key>
+        <many-to-many entity-name="Model.User">
+            <column name="USER_ID" not-null="true" />
+        </many-to-many>
+    </set>-->
+    
+    <set name="conferences" table="moderator_conference"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="user_id" not-null="true" />
+        </key>
+        <one-to-many class="Model.ModeratorConference" />
+    </set>
     
  </class>
 
