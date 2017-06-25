@@ -60,7 +60,7 @@ public class AdminController {
         List<User> shallBeDeleted = new ArrayList<>();
         
         for (User user: verificationAwaitingUsers) {
-            if (user.getId() == userId) {
+            if (user.getUserId() == userId) {
                 shallBeDeleted.add(user);
             }
         }

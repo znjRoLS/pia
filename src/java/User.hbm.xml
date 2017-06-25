@@ -44,7 +44,7 @@ Contributor(s):
     <meta attribute="class-description">
        This class contains users. 
     </meta>
-    <id name="id" type="int" column="user_id">
+    <id name="userId" type="int" column="user_id">
        <generator class="identity"/>
     </id>
     <property name="first_name" column="first_name" type="string"/>

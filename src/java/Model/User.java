@@ -31,7 +31,7 @@ public class User {
     
     public static enum UserType { ADMIN, MODERATOR, USER };
     
-    private int id;
+    private int userId;
     
     private String first_name;
     private String last_name;
@@ -127,7 +127,7 @@ public class User {
       try{
          tx = session.beginTransaction();
          User user = new User();
-         user.setId(id);
+         user.setUserId(id);
          session.delete(user); 
          tx.commit();
       }catch (HibernateException e) {
@@ -272,7 +272,7 @@ public class User {
     
 
     public User(int id, String first_name, String last_name, String username, String password, String phone, String email, Date created, UserType type, boolean enabled) {
-        this.id = id;
+        this.userId = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -287,13 +287,15 @@ public class User {
     public User() {
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
+
+    
 
     public boolean isEnabled() {
         return enabled;

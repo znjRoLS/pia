@@ -31,9 +31,12 @@
             <!-- admin section -->
             <h:panelGroup rendered="#{login.loggedIn and login.userType==ADMIN}">
                <li id="navbar_registrations"><h:link outcome="registrations">Registrations</h:link></li>
-               <li id="navbar_festival_add"><h:link outcome="conference_add">Add conference</h:link></li>
+               <li id="navbar_conference_add"><h:link outcome="conference_add">Add conference</h:link></li>
            </h:panelGroup>
-          <li><a href="#">Page 3</a></li>
+            <!-- moderator section -->
+            <h:panelGroup rendered="#{login.loggedIn and login.userType==MODERATOR}">
+               <li id="navbar_conferences_view"><h:link outcome="conference_view">View my conferences</h:link></li>
+           </h:panelGroup>
           </ul>
         </div>
       </nav>

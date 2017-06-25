@@ -184,6 +184,14 @@ public class LoginController {
     public void setNew_password_valid(boolean new_password_valid) {
         this.new_password_valid = new_password_valid;
     }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
     
     
     

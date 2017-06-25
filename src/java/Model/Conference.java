@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +41,38 @@ public class Conference {
     @ElementCollection(targetClass=Integer.class)
     private Set<ModeratorConference> moderators = new HashSet<ModeratorConference>(); //moderators
 
+    public static List<Conference> getByUser(User user) {
+        if (user == null) return null;
+        
+        List<Conference> conferences = new ArrayList<Conference>();
+        List<Object[]> results = null;
+        
+        Session session = HibernateHelper.getFactory().openSession();
+        Transaction tx = null;
+        Integer userID = null;
+        try{
+          tx = session.beginTransaction();
+
+          String cmd = "FROM Conference C JOIN C.moderators M WHERE M.user_id = :user_id";
+          Query query = session.createQuery(cmd);
+          query.setParameter("user_id", user);
+          results = query.list();
+
+          tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
+        
+        for (Object[] result: results) {
+            conferences.add((Conference) result[0]);
+        }
+        
+        return conferences;
+    }
+    
     public int getConferenceId() {
         return conferenceId;
     }
