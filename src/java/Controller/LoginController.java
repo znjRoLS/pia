@@ -28,10 +28,45 @@ import org.hibernate.cfg.Configuration;
 public class LoginController {
     private String username;
     private String password;
+    private String new_password;
+    private String new_password_repeat;
+    private boolean new_password_valid = false;
     private String message;
     private boolean loggedIn = false;
     private boolean allValid = false;
     private User.UserType userType;
+    private User currentUser;
+    
+    public String ChangePassword() {
+        if (!currentUser.getPassword().equals(password)) {
+            message = "Wrong old password!";
+            return "login_pass";
+        }
+        
+        currentUser.changePassword(new_password);
+        
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        session.invalidate();
+        return "index";
+    }
+    
+    public void ValidatePassword(FacesContext fc, UIComponent c, Object value) {
+        String new_password = (String) value;
+        String new_password_repeat = (String) c.getAttributes().get("passwordRepeat");
+
+//        System.out.println("repeat " + password_repeat + " pass " + password);
+        
+        if (new_password == null || new_password_repeat == null) {
+            new_password_valid = true;            
+        } else if (!new_password.equals(new_password_repeat)) {
+            new_password_valid = false;
+            //updateAllValid();
+            throw new ValidatorException(new FacesMessage("Passwords do not match!"));
+        }
+        new_password_valid = true;
+        
+        //updateAllValid();
+    }
     
     public void ValidateUsername(FacesContext fc, UIComponent c, Object value) {
         
@@ -54,6 +89,8 @@ public class LoginController {
         }
         
         loggedIn = true;
+        currentUser = user;
+        
         switch(user.getUserType()) {
             case ADMIN:
                 return "home_admin";
@@ -128,6 +165,22 @@ public class LoginController {
 
     public void setUserType(User.UserType userType) {
         this.userType = userType;
+    }
+
+    public String getNew_password() {
+        return new_password;
+    }
+
+    public void setNew_password(String new_password) {
+        this.new_password = new_password;
+    }
+
+    public boolean isNew_password_valid() {
+        return new_password_valid;
+    }
+
+    public void setNew_password_valid(boolean new_password_valid) {
+        this.new_password_valid = new_password_valid;
     }
     
     

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/base_layout.xhtml">	
+        <ui:define name="content">				
+            <div class="loginmodal-container">
+        <h:form>
+            <h:panelGrid columns="3">
+           
+
+              #{msgs.promptPassword}
+              <label>Old password  </label>
+              <h:inputSecret id="pass" value="#{login.password}" required="true"
+                             requiredMessage="Niste uneli staru lozinku"/>
+              <h:message for="pass" class="error-text alert alert-danger" />
+              
+              #{msgs.promptPassword}
+              <label>New password  </label>
+              <h:inputSecret id="password" value="#{login.new_password}" required="true"
+                             requiredMessage="Please enter your password" 
+                             validator="#{login.ValidatePassword}">
+                  <f:attribute name="passwordRepeat" value="#{passwordRepeat.submittedValue}" />
+                  <f:ajax execute="password_repeat password" event="blur" render="passwordError register_button" />
+              </h:inputSecret>
+              <h:message id="passwordError" for="password" class="error-text alert alert-danger" />
+              
+              #{msgs.promptPassword_repeat}
+              <label>Repeat new password  </label>
+              <h:inputSecret id="password_repeat" binding="#{passwordRepeat}" required="true"
+                             requiredMessage="Please enter your repeated password">
+                  <f:ajax execute="password_repeat password" event="blur" render="passwordError passwordRepeatError register_button" />
+              </h:inputSecret>
+              <h:message id="passwordRepeatError" for="password_repeat" class="error-text alert alert-danger" />
+            </h:panelGrid>
+            
+            
+            <h:commandButton id="login_button" class="login loginmodal-submit" value="Login" action="#{login.ChangePassword}"
+                             />
+        </h:form>
+      </div>
+        </ui:define>
+     </ui:composition>
+</html>
+

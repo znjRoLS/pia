@@ -25,6 +25,27 @@ import javax.persistence.Table;
 @Table(name= "USER")
 public class User {
     
+    public void changePassword(String newPass) {
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+        tx = session.beginTransaction();
+         
+        String cmd = "UPDATE User E SET E.password = :password WHERE E.username = :username";
+        Query query = session.createQuery(cmd);
+        query.setParameter("password",newPass);
+        query.setParameter("username",username);
+        query.executeUpdate();
+         
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+    }
+    
     public static List<User> getNotVerified() {
       List<User> users = null;
         
@@ -214,6 +235,10 @@ public class User {
     private Date created;
     private UserType type;
     private boolean enabled;
+    private boolean sex;
+    private String linkedin;
+    private Integer shirt_size;
+    private String institution;
 
     public User(int id, String first_name, String last_name, String username, String password, String phone, String email, Date created, UserType type, boolean enabled) {
         this.id = id;
@@ -313,6 +338,38 @@ public class User {
 
     public void setType(int type) {
         this.type = UserType.values()[type];
+    }
+
+    public boolean isSex() {
+        return sex;
+    }
+
+    public void setSex(boolean sex) {
+        this.sex = sex;
+    }
+
+    public String getLinkedin() {
+        return linkedin;
+    }
+
+    public void setLinkedin(String linkedin) {
+        this.linkedin = linkedin;
+    }
+
+    public Integer getShirt_size() {
+        return shirt_size;
+    }
+
+    public void setShirt_size(Integer shirt_size) {
+        this.shirt_size = shirt_size;
+    }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
     }
     
     

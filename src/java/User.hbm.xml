@@ -56,6 +56,11 @@ Contributor(s):
     <property name="created" column="created" type="date"/>
     <property name="type" column="type" type="int"/>
     <property name="enabled" column="enabled" type="boolean"/>
+    <property name="sex" column="sex" type="boolean"/>
+    <property name="linkedin" column="linkedin" type="string"/>
+    <property name="shirt_size" column="shirt_size" type="integer"/>
+    <property name="institution" column="institution" type="string"/>
+    
  </class>
 
 </hibernate-mapping>

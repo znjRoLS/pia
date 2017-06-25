@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.MusicEvent;
 import Model.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean(name="admin")
 @RequestScoped
 public class AdminController {
-    private ArrayList<MusicEvent> fiveMostSold;
     private List<User> verificationAwaitingUsers;
 
     public AdminController() {

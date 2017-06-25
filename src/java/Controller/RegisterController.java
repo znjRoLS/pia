@@ -24,7 +24,7 @@ public class RegisterController {
     
     
     public void ValidateUsername(FacesContext fc, UIComponent c, Object value) {
-        username_valid = User.FindByEmail((String) value) == null;
+        username_valid = User.FindByUsername((String) value) == null;
         updateAllValid();
         if (!username_valid) {
              throw new ValidatorException(
@@ -42,6 +42,32 @@ public class RegisterController {
     }
     
     public void ValidatePassword(FacesContext fc, UIComponent c, Object value) {
+                
+        password_valid = true;
+        
+        if (password.length() < 8) {
+            password_valid = false;
+            throw new ValidatorException(new FacesMessage("Password week! Need at least 8 characters"));
+        }
+        if (password.length() > 12) {
+            password_valid = false;
+            throw new ValidatorException(new FacesMessage("Password too long! Need at most 12 characters"));
+        }
+        {
+            int small = 0, big = 0, num = 0, other = 0;
+            for (char i : password.toCharArray()) {
+                if (i >= 'a' && i <= 'z') small ++;
+                else if (i >= 'A' && i <= 'Z') big ++;
+                else if (i >= '0' && i <= '9') num ++;
+                else other ++;
+                
+            }
+            if (small < 3 || big < 1 || num < 1 || other < 1) {
+                password_valid = false;
+                throw new ValidatorException(new FacesMessage("Password week! Need at least 3 small letters, 1 capital, 1 number and 1 special char"));
+            }
+        }
+        
         String password = (String) value;
         String password_repeat = (String) c.getAttributes().get("passwordRepeat");
 
@@ -54,7 +80,6 @@ public class RegisterController {
             updateAllValid();
             throw new ValidatorException(new FacesMessage("Passwords do not match!"));
         }
-        password_valid = true;
         
         updateAllValid();
     }
