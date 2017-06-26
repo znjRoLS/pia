@@ -9,23 +9,9 @@
     <ui:composition template="/templates/base_layout.xhtml">	
         <ui:define name="content">				
           
-            <h:form enctype="multipart/form-data">
-                
+          
                 <!-- Form Name -->
-                <legend>Upload conference data with file</legend>
-                
-                <p:growl id="messages" showDetail="true" />
-
-                <p:fileUpload fileUploadListener="#{conference_moderator.fileUpload}" mode="advanced"
-                              update="messages contact_form" auto="true" allowTypes="/(\.|\/)(csv|json)$/"  />
-            
-                <!--<h:outputLabel class="error-text alert alert-danger" rendered="#{conference_moderator.fileUploadError != null}" >#{conference_moderator.fileUploadError}</h:outputLabel>-->
-            </h:form>
-            
-            <h:form class="well form-horizontal"  id="contact_form">
-
-                <!-- Form Name -->
-                <legend>Enter conference data!</legend>
+                <legend>Conference data!</legend>
 
                 <!-- Text input-->
 
@@ -63,7 +49,7 @@
                   <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <p:calendar id="start_time" value="#{conference_moderator.selectedConference.startTime}" pattern="HH:mm" timeOnly="true" mode="popup" />
+                        <p:outputLabel id="start_time" value="#{conference_moderator.selectedConference.startTime}"  />
                     </div>
                   </div>
                 </div>
@@ -73,7 +59,7 @@
                   <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <p:calendar id="end_time" value="#{conference_moderator.selectedConference.endTime}" pattern="HH:mm" timeOnly="true" mode="popup" />
+                        <p:outputLabel id="end_time" value="#{conference_moderator.selectedConference.endTime}"/>
                     </div>
                   </div>
                 </div>
@@ -83,22 +69,19 @@
                         Session
                     </f:facet>
                     <label>Name</label>
-                    <p:inputText value="#{sessionconf.name}"  />
+                    <p:outputLabel value="#{sessionconf.name}"  />
                     <label>Type</label>
-                    <p:inputText value="#{sessionconf.type}"  />
+                    <p:outputLabel value="#{sessionconf.type}"  />
                     
                     <h:outputLabel for="session_room" value="Room:" />
-                    <p:selectOneMenu id="session_room" value="#{sessionconf.roomName}" label="Room"
-                                          filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                        <f:selectItems value="#{conference_moderator.roomNames}" />
-                    </p:selectOneMenu>
+                    <p:outputLabel value="#{sessionconf.roomName}"  />
                     
                     <div class="form-group">
                     <label class="col-md-4 control-label">Date</label>  
                     <div class="col-md-4 inputGroupContainer">
                       <div class="input-group">
                           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                          <p:calendar id="session_date" value="#{sessionconf.date}" mode="popup" />
+                          <p:outputLabel id="session_date" value="#{sessionconf.date}" />
                       </div>
                     </div>
                   </div>
@@ -108,7 +91,7 @@
                         <div class="col-md-4 inputGroupContainer">
                           <div class="input-group">
                               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:calendar id="session_start_time" value="#{sessionconf.startTime}" pattern="HH:mm" timeOnly="true" mode="popup" />
+                              <p:outputLabel id="session_start_time" value="#{sessionconf.startTime}"  />
                           </div>
                         </div>
                       </div>
@@ -118,7 +101,7 @@
                         <div class="col-md-4 inputGroupContainer">
                           <div class="input-group">
                               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:calendar id="session_end_time" value="#{sessionconf.endTime}" pattern="HH:mm" timeOnly="true" mode="popup" />
+                              <p:outputLabel id="session_end_time" value="#{sessionconf.endTime}"  />
                           </div>
                         </div>
                       </div>
@@ -127,29 +110,25 @@
                     
                 </p:dataList>
                 
-                <p:commandButton value="Add new session" action="#{conference_moderator.addSession()}" update="sessions_list" />
-                
                 <p:dataList id="presentations_list" var="presentation" value="#{conference_moderator.presentations}" >
                     <f:facet name="header">
                         Presentation
                     </f:facet>
                     <label>Name</label>
-                    <p:inputText value="#{presentation.name}"  />
+                    <p:outputLabel value="#{presentation.name}"  />
 
                     <h:outputLabel for="presentation_session" value="Session:" />
-                    <p:selectOneMenu id="presentation_session" value="#{presentation.sessionName}" label="Session"
-                                          filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                        <f:selectItems value="#{conference_moderator.sessions}" var="sessionconf" itemValue="#{sessionconf.name}" itemLabel="#{sessionconf.name}" />
-                    </p:selectOneMenu>
+                    <h:outputLabel  value="#{presentation.sessionName}" />
+                    
 
                     <p:dataList id="authors" var="author" value="#{presentation.authorNames}" >
                         <f:facet name="header">
                             Presentation
                         </f:facet>
                         <label>Name</label>
-                        <p:inputText value="#{author.first_name}"  />
+                        <p:outputLabel value="#{author.first_name}"  />
                         <label>Surname</label>
-                        <p:inputText value="#{author.last_name}"  />
+                        <p:outputLabel value="#{author.last_name}"  />
                     </p:dataList>
                     
                     <p:commandButton value="Add new author" action="#{presentation.addAuthor()}" update="authors" />
@@ -159,20 +138,12 @@
                         <div class="col-md-4 inputGroupContainer">
                           <div class="input-group">
                               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:calendar id="presentation_start_time" value="#{presentation.startTime}" pattern="HH:mm" timeOnly="true" mode="popup" />
+                              <p:outputLabel id="presentation_start_time" value="#{presentation.startTime}" />
                           </div>
                         </div>
                       </div>
 
                 </p:dataList>
-
-                <p:commandButton value="Add new session" action="#{conference_moderator.addPresentation()}" update="presentations_list" />
-                    
-                
-                
-                <p:commandButton id="add_button" class="login loginmodal-submit" value="Create" action="#{conference_moderator.updateConference()}" ajax="false"
-                                 />
-            </h:form>
 
         </ui:define>
      </ui:composition>

@@ -14,12 +14,18 @@
             <h:panelGroup rendered="#{login.loggedIn and login.isAdmin}">
                <li id="navbar_registrations"><h:link outcome="registrations">Registrations</h:link></li>
                <li id="navbar_conference_add"><h:link outcome="conference_add">Add conference</h:link></li>
+               <li id="navbar_conferences_view_admin"><h:link outcome="conference_view_admin">View all conferences</h:link></li>
+           
            </h:panelGroup>
             <!-- moderator section -->
             <h:panelGroup rendered="#{login.loggedIn and login.isModerator}">
                <li id="navbar_conferences_view"><h:link outcome="conference_view">View my conferences</h:link></li>
            </h:panelGroup>
             
+            <!-- normal user section -->
+            <h:panelGroup rendered="#{login.loggedIn and !login.isModerator and !login.isAdmin}">
+               <li id="navbar_conferences_view_user"><h:link outcome="conference_view_user">Upcoming conferences</h:link></li>
+           </h:panelGroup>
             
           </ul>
             
@@ -42,7 +48,7 @@
                     <h:commandLink action="#{login.logout}" rendered="#{login.loggedIn}">Logout</h:commandLink>
                 </li>
             <li id="navbar_change_password"><h:link outcome="login_pass">Change password</h:link></li>
-            <li id="navbar_messages"><h:link type="button" >Messages <span class="badge">#{login.currentUser.messages.size()}</span></h:link></li>
+            <li id="navbar_messages"><h:link outcome="messages_view" type="button" >Messages <span class="badge">#{login.currentUser.messages.size()}</span></h:link></li>
             
            </h:panelGroup>
            

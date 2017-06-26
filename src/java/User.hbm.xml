@@ -94,6 +94,14 @@ Contributor(s):
         <one-to-many class="Model.Message" />
     </set>
     
+    <set name="conferencesUser" table="user_conference"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="user" not-null="true" />
+        </key>
+        <one-to-many class="Model.UserConference" />
+    </set>
+    
  </class>
 
 </hibernate-mapping>

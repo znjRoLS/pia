@@ -17,7 +17,7 @@ public class Message {
     private User user;
     private String subject;
     private Date time;
-    private boolean read;
+    private int read;
     
     
     public int getMessage_id() {
@@ -60,13 +60,15 @@ public class Message {
         this.time = time;
     }
 
-    public boolean isRead() {
+    public int getRead() {
         return read;
     }
 
-    public void setRead(boolean read) {
+    public void setRead(int read) {
         this.read = read;
     }
+
+    
     
     
 }

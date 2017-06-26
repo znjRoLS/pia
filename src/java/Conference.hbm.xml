@@ -79,5 +79,12 @@ Contributor(s):
         </key>
         <one-to-many class="Model.SessionConf" />
     </set>
+    <set name="users" table="muser_conference"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="conference" not-null="true" />
+        </key>
+        <one-to-many class="Model.UserConference" />
+    </set>
  </class>
 </hibernate-mapping>

@@ -98,8 +98,10 @@ public class LoginController {
         switch(user.getUserType()) {
             case ADMIN:
                 isAdmin = true;
+                break;
             case MODERATOR:
                 isModerator = true;
+                break;
         }
 
         return "index";

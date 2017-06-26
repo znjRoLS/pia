@@ -7,12 +7,12 @@
       xmlns:p="http://primefaces.org/ui">
     
     <f:metadata>
-        <f:event type="preRenderView" listener="#{moderator_conference.onload(login.currentUser)}" />
+        <f:event type="preRenderView" listener="#{conference_user.onload(login.currentUser)}" />
     </f:metadata>
     
     <ui:composition template="/templates/base_layout.xhtml">	
         <ui:define name="content">				
-            <p:dataList  value="#{moderator_conference.conferencesForCurrent}" var="conf" >
+            <p:dataList  value="#{conference_user.registredConferences}" var="conf" >
                                 <!-- Project One -->
                 <div class="row">
                     <div class="col-md-7">
@@ -24,7 +24,6 @@
                         <h3>#{conf.name}</h3>
                         <h4>#{conf.place}</h4>
                         <p>Will take place from #{conf.startDate} to #{conf.endDate}</p>
-                        <p:commandButton action="#{conference_moderator.viewConference(login.currentUser, conf)}" class="btn btn-primary" value="Go to conference"></p:commandButton>
                     </div>
                 </div>
                 <!-- /.row -->

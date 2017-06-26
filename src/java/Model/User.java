@@ -51,6 +51,7 @@ public class User {
     private Set<ModeratorConference> conferences = new HashSet<ModeratorConference>(); // for moderators
     private Set<AuthorPresentation> presentations = new HashSet<AuthorPresentation>(); // for presentations
     private Set<Message> messages = new HashSet<Message>(); // for messages
+    private Set<UserConference> conferencesUser = new HashSet<>(); // for attends
     
     
     public static List<User> getModerators() {
@@ -108,7 +109,7 @@ public class User {
       try{
         tx = session.beginTransaction();
          
-        String cmd = "FROM User E WHERE E.enabled <> true";
+        String cmd = "FROM User E WHERE E.enabled <> true AND E.username <> null";
         Query query = session.createQuery(cmd);
         users = query.list();
   
@@ -456,6 +457,14 @@ public class User {
 
     public void setMessages(Set<Message> messages) {
         this.messages = messages;
+    }
+
+    public Set<UserConference> getConferencesUser() {
+        return conferencesUser;
+    }
+
+    public void setConferencesUser(Set<UserConference> conferencesUser) {
+        this.conferencesUser = conferencesUser;
     }
 
     

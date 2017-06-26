@@ -43,7 +43,8 @@ public class Conference {
     
     @ElementCollection(targetClass=Integer.class)
     private Set<ModeratorConference> moderators = new HashSet<ModeratorConference>(); //moderators
-    private Set<SessionConf> sessions = new HashSet<>(); //moderators
+    private Set<SessionConf> sessions = new HashSet<>(); //sessions
+    private Set<UserConference> users = new HashSet<>(); //reg users
 
     public static List<Conference> getAll() {
         List<Conference> conferences = null;
@@ -69,6 +70,38 @@ public class Conference {
         return conferences;
     }
     
+    public static List<User> getRegistredUsers(Conference conf) {
+        if (conf == null) return null;
+        
+        List<User> users = new ArrayList<>();
+        List<Object[]> results = null;
+        
+        Session session = HibernateHelper.getFactory().openSession();
+        Transaction tx = null;
+        Integer userID = null;
+        try{
+          tx = session.beginTransaction();
+
+          String cmd = "FROM User U JOIN U.conferencesUser M WHERE M.conference = :conference";
+          Query query = session.createQuery(cmd);
+          query.setParameter("conference", conf);
+          results = query.list();
+
+          tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
+        
+        for (Object[] result: results) {
+            users.add((User) result[0]);
+        }
+        
+        return users;
+    }
+    
     public static List<Conference> getByUser(User user) {
         if (user == null) return null;
         
@@ -84,6 +117,38 @@ public class Conference {
           String cmd = "FROM Conference C JOIN C.moderators M WHERE M.user_id = :user_id";
           Query query = session.createQuery(cmd);
           query.setParameter("user_id", user);
+          results = query.list();
+
+          tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
+        
+        for (Object[] result: results) {
+            conferences.add((Conference) result[0]);
+        }
+        
+        return conferences;
+    }
+    
+    public static List<Conference> getByRegistredUser(User user) {
+        if (user == null) return null;
+        
+        List<Conference> conferences = new ArrayList<Conference>();
+        List<Object[]> results = null;
+        
+        Session session = HibernateHelper.getFactory().openSession();
+        Transaction tx = null;
+        Integer userID = null;
+        try{
+          tx = session.beginTransaction();
+
+          String cmd = "FROM Conference C JOIN C.users M WHERE M.user = :user";
+          Query query = session.createQuery(cmd);
+          query.setParameter("user", user);
           results = query.list();
 
           tx.commit();
@@ -182,5 +247,15 @@ public class Conference {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
+
+    public Set<UserConference> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<UserConference> users) {
+        this.users = users;
+    }
+    
+    
     
 }

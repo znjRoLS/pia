@@ -48,7 +48,7 @@ Contributor(s):
        <generator class="identity"/>
     </id>
     <many-to-one class="Model.User" fetch="select" name="user">
-      <column name="user_id" not-null="true"/>
+      <column name="user" not-null="true"/>
     </many-to-one>
     
     <property name="time" column="time" type="date"/>
