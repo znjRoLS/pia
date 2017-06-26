@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -37,9 +38,12 @@ public class Conference {
     private Date startDate;
     private Date endDate;
     private Location location;
+    private Date startTime;
+    private Date endTime;
     
     @ElementCollection(targetClass=Integer.class)
     private Set<ModeratorConference> moderators = new HashSet<ModeratorConference>(); //moderators
+    private Set<SessionConf> sessions = new HashSet<>(); //moderators
 
     public static List<Conference> getAll() {
         List<Conference> conferences = null;
@@ -155,9 +159,28 @@ public class Conference {
         this.moderators = moderators;
     }
 
-    
+    public Set<SessionConf> getSessions() {
+        return sessions;
+    }
 
-    
-    
+    public void setSessions(Set<SessionConf> sessions) {
+        this.sessions = sessions;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
     
 }

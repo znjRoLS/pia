@@ -49,6 +49,7 @@ public class User {
     
     @ElementCollection(targetClass=Integer.class)
     private Set<ModeratorConference> conferences = new HashSet<ModeratorConference>(); // for moderators
+    private Set<AuthorPresentation> presentations = new HashSet<AuthorPresentation>(); // for presentations
     
     
     public static List<User> getModerators() {
@@ -270,6 +271,33 @@ public class User {
       return user;
     }
     
+    public static User FindByNameSurname(String first, String last) {
+        User user = null;
+      Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      try{
+        tx = session.beginTransaction();
+         
+        String cmd = "FROM User E WHERE E.first_name = :first AND E.last_name = :last";
+        Query query = session.createQuery(cmd);
+        query.setParameter("first",first);
+        query.setParameter("last",last);
+        List results = query.list();
+        if (results.size() > 0) {
+            user = (User) results.get(0);
+        }
+         
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return user;
+    }
+    
 
     public User(int id, String first_name, String last_name, String username, String password, String phone, String email, Date created, UserType type, boolean enabled) {
         this.userId = id;
@@ -411,6 +439,14 @@ public class User {
 
     public void setConferences(Set<ModeratorConference> conferences) {
         this.conferences = conferences;
+    }
+
+    public Set<AuthorPresentation> getPresentations() {
+        return presentations;
+    }
+
+    public void setPresentations(Set<AuthorPresentation> presentations) {
+        this.presentations = presentations;
     }
 
     

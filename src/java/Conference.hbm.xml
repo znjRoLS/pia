@@ -51,6 +51,8 @@ Contributor(s):
     <property name="place" column="place" type="string"/>
     <property name="startDate" column="start_date" type="date"/>
     <property name="endDate" column="end_date" type="date"/>
+    <property name="startTime" column="start_time" type="time"/>
+    <property name="endTime" column="end_time" type="time"/>
     <many-to-one name="location" class="Model.Location" fetch="select">
         <column name="location_id" not-null="true" />
     </many-to-one>
@@ -69,6 +71,13 @@ Contributor(s):
             <column name="conference_id" not-null="true" />
         </key>
         <one-to-many class="Model.ModeratorConference" />
+    </set>
+    <set name="sessions" table="session_conf"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="conference" not-null="true" />
+        </key>
+        <one-to-many class="Model.SessionConf" />
     </set>
  </class>
 </hibernate-mapping>

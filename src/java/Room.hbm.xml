@@ -44,12 +44,18 @@ Contributor(s):
     <meta attribute="class-description">
        This class contains users. 
     </meta>
-    <id name="id" type="int" column="room_id">
-       <generator class="identity"/>
+    <id column="room_id" name="id" type="int">
+      <generator class="identity"/>
     </id>
-    <property name="name" column="name" type="string"/>
-    <many-to-one name="location" class="Model.Location" fetch="select">
-        <column name="location_id" not-null="true" />
+    <property column="name" name="name" type="string"/>
+    <many-to-one class="Model.Location" fetch="select" name="location">
+      <column name="location_id" not-null="true"/>
     </many-to-one>
- </class>
+    <set fetch="select" inverse="true" lazy="true" name="sessions" table="session">
+      <key>
+        <column name="room_id" not-null="true"/>
+      </key>
+      <one-to-many class="Model.SessionConf"/>
+    </set>
+  </class>
 </hibernate-mapping>

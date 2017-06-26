@@ -78,6 +78,14 @@ Contributor(s):
         <one-to-many class="Model.ModeratorConference" />
     </set>
     
+    <set name="presentations" table="author_presentation"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="author" not-null="true" />
+        </key>
+        <one-to-many class="Model.AuthorPresentation" />
+    </set>
+    
  </class>
 
 </hibernate-mapping>

@@ -5,10 +5,14 @@
  */
 package Controller;
 
+import Model.AuthorPresentation;
 import Model.Conference;
 import Model.HibernateHelper;
 import Model.Location;
 import Model.ModeratorConference;
+import Model.Presentation;
+import Model.Room;
+import Model.SessionConf;
 import Model.User;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,26 +48,50 @@ public class ConferenceController {
     
     private List<Conference> allConferences;
     private List<Conference> filteredConferences;
+    
+    private List<SessionConf> sessions;
+    
+    private List<Room> rooms;
+    private List<String> roomNames;
+    
+    private List<Presentation> presentations = new ArrayList<>();
 
     public ConferenceController() {
         conference = new Conference();
         
         moderators = User.getModerators();
         
-        moderatorNames = new ArrayList<String>();
-        for (User u : moderators) {
+        moderatorNames = new ArrayList<>();
+        moderators.forEach((u) -> {
             moderatorNames.add(u.getUsername());
-        }
+         });
         
         locations = Location.getAll();
         
-        locationNames = new ArrayList<String>();
-        for (Location u : locations) {
+        locationNames = new ArrayList<>();
+        locations.forEach((u) -> {
             locationNames.add(u.getName());
-        }
+         });
         
         allConferences = Conference.getAll();
         
+        rooms = Room.getAll();
+        roomNames = new ArrayList<>();
+        
+        rooms.forEach((room) -> {
+            roomNames.add(room.getName());
+         });
+        
+        
+        
+    }
+    
+    public void addPresentation() {
+        presentations.add(new Presentation());
+    }
+    
+    public void addSession() {
+        sessions.add(new SessionConf());
     }
     
     public String viewConference(User currentUser, Conference conf) {
@@ -73,27 +101,80 @@ public class ConferenceController {
         if (currentUser == null) {
             return "login";
         }
+        
+        sessions = new ArrayList<>();
+        for (SessionConf ses : conf.getSessions()) {
+            sessions.add(ses);
+        }
+        
         return "conference_show";
     }
-//    public void showMusicEvent() {
-//        Session session = HibernateHelper.getFactory().openSession();
-//      Transaction tx = null;
-//      try{
-//        tx = session.beginTransaction();
-//         
-//        musicEvent = (MusicEvent) session.get(MusicEvent.class, musicEventId);
-//        ticketTypes = musicEvent.getTicketTypes();
-//        performers = musicEvent.getPerformers();
-//        socialNetworks = musicEvent.getSocialNetworks();
-//  
-//        tx.commit();
-//      }catch (HibernateException e) {
-//         if (tx!=null) tx.rollback();
-//         e.printStackTrace(); 
-//      }finally {
-//         session.close(); 
-//      }
-//    }
+
+    public String updateConference() {
+        
+        
+        Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      Integer userID = null;
+      try{
+        tx = session.beginTransaction();
+         
+        for (Presentation presentation : presentations) {
+                
+            for (SessionConf sessionconf : sessions) {
+                if (sessionconf.getName().equals(presentation.getSessionName())) {
+                    sessionconf.getPresentations().add(presentation);
+                    presentation.setSession(sessionconf);
+                    break;
+                }
+            }
+            
+            session.save(presentation);
+            
+            for (User author : presentation.getAuthorNames()) {
+                User user = User.FindByNameSurname(author.getFirst_name(), author.getLast_name());
+
+                if (user == null) {
+                    user = author;
+                    user.setType(User.UserType.USER.ordinal());
+                    session.save(user);
+                }
+
+                AuthorPresentation authPres = new AuthorPresentation();
+                authPres.setAuthor(user);
+                authPres.setPresentation(presentation);
+
+                session.save(authPres);
+                presentation.getAuthors().add(authPres);
+            }
+
+        }
+        
+        for (SessionConf sessionConf : sessions ) {
+            for (Room room : rooms) {
+                if (room.getName().equals(sessionConf.getRoomName())) {
+                    sessionConf.setRoom(room);
+                }
+            }
+            
+            sessionConf.setConference(selectedConference);
+            
+            session.save(sessionConf);
+        }
+        
+        session.save(selectedConference);
+        
+        
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return "index";
+    }
     
     public String addConference() {
         Session session = HibernateHelper.getFactory().openSession();
@@ -254,8 +335,38 @@ public class ConferenceController {
         this.filteredConferences = filteredConferences;
     }
 
-    
-    
+    public List<SessionConf> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(List<SessionConf> sessions) {
+        this.sessions = sessions;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public List<String> getRoomNames() {
+        return roomNames;
+    }
+
+    public void setRoomNames(List<String> roomNames) {
+        this.roomNames = roomNames;
+    }
+
+    public List<Presentation> getPresentations() {
+        return presentations;
+    }
+
+    public void setPresentations(List<Presentation> presentations) {
+        this.presentations = presentations;
+    }
+
     
     
 }

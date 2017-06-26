@@ -17,7 +17,7 @@ import javax.faces.bean.ManagedProperty;
  * @author rols
  */
 @ManagedBean(name="moderator_conference")
-@javax.faces.bean.RequestScoped
+@javax.faces.bean.SessionScoped
 public class ModeratorConferenceController {
     private List<Conference> conferencesForCurrent;
     @ManagedProperty(value="#{login}")
