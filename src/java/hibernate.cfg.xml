@@ -57,5 +57,6 @@ Contributor(s):
     <mapping resource="SessionConf.hbm.xml"/>
     <mapping resource="Presentation.hbm.xml"/>
     <mapping resource="AuthorPresentation.hbm.xml"/>
+    <mapping resource="Message.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

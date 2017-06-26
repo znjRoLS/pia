@@ -20,7 +20,7 @@
               <label>Password  </label>
               <h:inputSecret id="pass" value="#{login.password}" required="true"
                              requiredMessage="Niste uneli lozinku"/>
-              <h:message for="pass" class="error-text" />
+              <h:outputLabel for="pass" class="error-text alert alert-danger" rendered="#{login.message != null}" >#{login.message}</h:outputLabel>
             </h:panelGrid>
             <h:commandButton id="login_button" class="login loginmodal-submit" value="Login" action="#{login.TryLogin}"
                              disabled="#{!login.allValid}"/>

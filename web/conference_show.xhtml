@@ -9,6 +9,19 @@
     <ui:composition template="/templates/base_layout.xhtml">	
         <ui:define name="content">				
           
+            <h:form enctype="multipart/form-data">
+                
+                <!-- Form Name -->
+                <legend>Upload conference data with file</legend>
+                
+                <p:growl id="messages" showDetail="true" />
+
+                <p:fileUpload fileUploadListener="#{conference.fileUpload}" mode="advanced"
+                              update="messages contact_form" auto="true" allowTypes="/(\.|\/)(csv|json)$/"  />
+            
+                <!--<h:outputLabel class="error-text alert alert-danger" rendered="#{conference.fileUploadError != null}" >#{conference.fileUploadError}</h:outputLabel>-->
+            </h:form>
+            
             <h:form class="well form-horizontal"  id="contact_form">
 
                 <!-- Form Name -->
@@ -109,12 +122,7 @@
                           </div>
                         </div>
                       </div>
-                    
-
-                    
-                    
-                    
-                    
+                  
                     
                     
                 </p:dataList>

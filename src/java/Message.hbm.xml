@@ -40,29 +40,20 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-mapping>
-  <class name="Model.SessionConf" table="SESSION_CONF">
+  <class name="Model.Message" table="MESSAGE">
     <meta attribute="class-description">
        This class contains users. 
     </meta>
-    <id column="session_id" name="sessionId" type="int">
-      <generator class="identity"/>
+    <id name="message_id" type="int" column="message_id">
+       <generator class="identity"/>
     </id>
-    <property column="name" name="name" type="string"/>
-    <property column="type" name="type" type="string"/>
-    <many-to-one class="Model.Room" fetch="select" name="room">
-      <column name="room_id" not-null="false"/>
+    <many-to-one class="Model.User" fetch="select" name="user">
+      <column name="user_id" not-null="true"/>
     </many-to-one>
-    <property column="date" name="date" type="date"/>
-    <property column="start_time" name="startTime" type="time"/>
-    <property column="end_time" name="endTime" type="time"/>
-    <set fetch="select" inverse="true" lazy="true" name="presentations" table="presentation">
-      <key>
-        <column name="session_id" not-null="true"/>
-      </key>
-      <one-to-many class="Model.Presentation"/>
-    </set>
-    <many-to-one name="conference" class="Model.Conference" fetch="select">
-        <column name="conference" not-null="true" />
-    </many-to-one>
-  </class>
-</hibernate-mapping>
+    
+    <property name="time" column="time" type="date"/>
+    <property name="body" column="body" type="string"/>
+    <property name="subject" column="subject" type="string"/>
+    <property name="read" column="opened" type="int" />
+    
+ </class></hibernate-mapping>

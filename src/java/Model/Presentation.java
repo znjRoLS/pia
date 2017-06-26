@@ -11,6 +11,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javafx.util.Pair;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -27,6 +31,38 @@ public class Presentation {
     
     private String sessionName;
 
+    public static List<Presentation> getByConference(Conference conf) {
+        List<Presentation> presentations = new ArrayList<>();
+        
+        List<Object[]> results = null;
+        
+        Session session = HibernateHelper.getFactory().openSession();
+        Transaction tx = null;
+        Integer userID = null;
+        try{
+          tx = session.beginTransaction();
+
+          String cmd = "FROM Presentation P JOIN P.session S WHERE S.conference = :conference";
+          Query query = session.createQuery(cmd);
+          query.setParameter("conference", conf);
+          results = query.list();
+
+          tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
+        
+        for (Object[] result: results) {
+            presentations.add((Presentation) result[0]);
+        }
+        
+        
+        return presentations;
+    }
+    
     public void addAuthor() {
         authorNames.add(new User());
     }

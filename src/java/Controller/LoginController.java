@@ -104,9 +104,6 @@ public class LoginController {
 
         return "index";
         
-
-//        
-//        return "login";
     }
     
     public String logout() {

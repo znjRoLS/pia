@@ -14,15 +14,28 @@ import Model.Presentation;
 import Model.Room;
 import Model.SessionConf;
 import Model.User;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
+import org.primefaces.json.*;
 /**
  *
  * @author rols
@@ -56,6 +69,210 @@ public class ConferenceController {
     
     private List<Presentation> presentations = new ArrayList<>();
 
+    private UploadedFile conferenceFile;
+    
+    private String fileUploadError;
+
+    public UploadedFile getConferenceFile() {
+        return conferenceFile;
+    }
+
+    public void setConferenceFile(UploadedFile conferenceFile) {
+        this.conferenceFile = conferenceFile;
+    }
+     
+    
+    // convert InputStream to String
+    private static String getStringFromInputStream(InputStream is) {
+
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+                br = new BufferedReader(new InputStreamReader(is));
+                while ((line = br.readLine()) != null) {
+                        sb.append(line);
+                }
+
+        } catch (IOException e) {
+                e.printStackTrace();
+        } finally {
+                if (br != null) {
+                        try {
+                                br.close();
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
+        }
+
+        return sb.toString();
+
+    }
+    
+    public void fileUpload(FileUploadEvent event) {
+        conferenceFile = event.getFile();
+        
+        if (conferenceFile == null) {
+            return;
+        }
+        String str = conferenceFile.getFileName();
+        String ext = str.substring(str.lastIndexOf('.'), str.length());
+        if (ext.equals(".json")) {
+            jsonParse();
+        }
+        if (ext.equals(".csv")) {
+            //csvParse();
+        }
+    }
+    
+    private void jsonParse() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            InputStream is = new ByteArrayInputStream(conferenceFile.getContents());
+
+            String fileContents = getStringFromInputStream(is);
+
+            JSONObject obj = new JSONObject(fileContents);
+            String confTitle = obj.getJSONObject("Conference").getString("Title");
+
+            if (!confTitle.equals(selectedConference.getName())) {
+                context.addMessage(null, new FacesMessage("Unsuccessful",  "Conference names don't match!") );
+                return;
+            }
+
+            Session session = HibernateHelper.getFactory().openSession();
+            Transaction tx = null;
+            Integer userID = null;
+            try{
+                tx = session.beginTransaction();
+
+                JSONArray arr = obj.getJSONObject("Conference").getJSONArray("Program");
+                for (int i = 0; i < arr.length(); i++)
+                {
+                    SessionConf sessionConf = new SessionConf();
+                    sessionConf.setConference(selectedConference);
+
+                    String sessionName = arr.getJSONObject(i).getString("SessionName");
+                    sessionConf.setName(sessionName);
+
+                    String type = arr.getJSONObject(i).getString("Type");
+                    sessionConf.setType(type);
+
+                    try {
+                        String room = arr.getJSONObject(i).getString("Room");
+                        Integer roomId = Integer.parseInt(room);
+                        for(Room roomObj : rooms) {
+                            if (roomObj.getId() == roomId) {
+                                sessionConf.setRoom(roomObj);
+                                break;
+                            }
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+
+                    try {
+                        String dateStr = arr.getJSONObject(i).getString("Date");
+                        DateFormat df = new SimpleDateFormat("DD/MM/yyyy");
+                        Date date = df.parse(dateStr);
+                        sessionConf.setDate(date);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        String timeStr = arr.getJSONObject(i).getString("StartTime");
+                        DateFormat df = new SimpleDateFormat("hh:mm:ss aa");
+                        Date time = df.parse(timeStr);
+                        sessionConf.setStartTime(time);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        String timeStr = arr.getJSONObject(i).getString("EndTime");
+                        DateFormat df = new SimpleDateFormat("hh:mm:ss aa");
+                        Date time = df.parse(timeStr);
+                        sessionConf.setEndTime(time);
+                    } catch (Exception e) {
+
+                    }
+
+                    sessions.add(sessionConf);
+                    session.save(sessionConf);
+                }
+
+                arr = obj.getJSONObject("Conference").getJSONArray("Presentations");
+                for (int i = 0; i < arr.length(); i++)
+                {
+                    Presentation presentation = new Presentation();
+
+
+                    String presentationName = arr.getJSONObject(i).getString("PresentationName");
+                    presentation.setName(presentationName);
+
+                    String sessionName = arr.getJSONObject(i).getString("SessionName");
+                    for (SessionConf sessionConf : sessions) {
+                        if (sessionConf.getName().equals(sessionName)) {
+                            presentation.setSession(sessionConf);
+                            sessionConf.getPresentations().add(presentation);
+                            break;
+                        }
+                    }
+
+                    try {
+                        String timeStr = arr.getJSONObject(i).getString("StartTime");
+                        DateFormat df = new SimpleDateFormat("hh:mm:ss aa");
+                        Date time = df.parse(timeStr);
+                        presentation.setStartTime(time);
+                    } catch (Exception e) {
+
+                    }
+
+                    session.save(presentation);
+                    presentations.add(presentation);
+                    
+                    String authors = arr.getJSONObject(i).getString("Authors");
+                    for (String singleAuthor : authors.split(", ")) {
+                        User user = User.FindByNameSurname(
+                                singleAuthor.split(" ")[0], 
+                                singleAuthor.split(" ").length > 1 ? singleAuthor.split(" ")[1] : "");
+
+                        if (user == null) {
+                            user = new User();
+                            user.setFirst_name(singleAuthor.split(" ")[0]);
+                            user.setLast_name(singleAuthor.split(" ").length > 1 ? singleAuthor.split(" ")[1] : "");
+                            user.setType(User.UserType.USER.ordinal());
+                            session.save(user);
+                        }
+
+                        AuthorPresentation authPres = new AuthorPresentation();
+                        authPres.setAuthor(user);
+                        authPres.setPresentation(presentation);
+
+                        session.save(authPres);
+                        presentation.getAuthors().add(authPres);
+                    }
+
+                }
+                tx.commit();
+            }catch (HibernateException e) {
+             if (tx!=null) tx.rollback();
+             e.printStackTrace();
+
+          }finally {
+             session.close(); 
+          }
+        } catch(Exception e) {
+            context.addMessage(null, new FacesMessage("Unsuccessful",  e.getMessage()) );
+                return;
+        }
+        
+    }
+    
+    
     public ConferenceController() {
         conference = new Conference();
         
@@ -106,6 +323,8 @@ public class ConferenceController {
         for (SessionConf ses : conf.getSessions()) {
             sessions.add(ses);
         }
+        
+        presentations = Presentation.getByConference(selectedConference);
         
         return "conference_show";
     }
@@ -365,6 +584,14 @@ public class ConferenceController {
 
     public void setPresentations(List<Presentation> presentations) {
         this.presentations = presentations;
+    }
+
+    public String getFileUploadError() {
+        return fileUploadError;
+    }
+
+    public void setFileUploadError(String fileUploadError) {
+        this.fileUploadError = fileUploadError;
     }
 
     

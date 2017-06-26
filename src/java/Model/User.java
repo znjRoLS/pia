@@ -50,6 +50,7 @@ public class User {
     @ElementCollection(targetClass=Integer.class)
     private Set<ModeratorConference> conferences = new HashSet<ModeratorConference>(); // for moderators
     private Set<AuthorPresentation> presentations = new HashSet<AuthorPresentation>(); // for presentations
+    private Set<Message> messages = new HashSet<Message>(); // for messages
     
     
     public static List<User> getModerators() {
@@ -447,6 +448,14 @@ public class User {
 
     public void setPresentations(Set<AuthorPresentation> presentations) {
         this.presentations = presentations;
+    }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
     }
 
     

@@ -3,30 +3,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition> 
+                        <h:form>
      <nav class="navbar navbar-default">
         <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Confex! Online conference maker and organizer!</a>
-          </div>
           <ul class="nav navbar-nav">
             <li id="navbar_index"><h:link outcome="index">Home</h:link></li>
-            <!-- not loggedin section -->
-            <h:panelGroup rendered="#{!login.loggedIn}">
-                <li id="navbar_login"><h:link outcome="login">Login</h:link></li>
-                <li id="navbar_register"><h:link outcome="register">Register</h:link></li>
-            </h:panelGroup>
             
-            <!-- logout section -->
-           <h:panelGroup rendered="#{login.loggedIn}">
-<!--                <li><a href="#" data-toggle="modal" data-target="#register_modal" >Register2</a></li>-->
-                <li id="navbar_logout">
-                    <h:form>
-                        <h:commandLink action="#{login.logout}" rendered="#{login.loggedIn}">Logout</h:commandLink>
-                    </h:form>
-                </li>
-<li id="navbar_change_password"><h:link outcome="login_pass">Change password</h:link></li>
-           </h:panelGroup>
-           
             
             <!-- admin section -->
             <h:panelGroup rendered="#{login.loggedIn and login.isAdmin}">
@@ -37,9 +19,39 @@
             <h:panelGroup rendered="#{login.loggedIn and login.isModerator}">
                <li id="navbar_conferences_view"><h:link outcome="conference_view">View my conferences</h:link></li>
            </h:panelGroup>
+            
+            
+          </ul>
+            
+            <!--<div class="navbar-brand"> Confex!</div>-->
+<!--          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Confex! Online conference maker and organizer!</a>
+          </div>-->
+          
+          <ul class="nav navbar-nav navbar-right">
+            <!-- not loggedin section -->
+            <h:panelGroup rendered="#{!login.loggedIn}">
+                <li id="navbar_login"><h:link outcome="login">Login</h:link></li>
+                <li id="navbar_register"><h:link outcome="register">Register</h:link></li>
+            </h:panelGroup>
+            
+            <!-- logout section -->
+           <h:panelGroup rendered="#{login.loggedIn}">
+<!--                <li><a href="#" data-toggle="modal" data-target="#register_modal" >Register2</a></li>-->
+                <li id="navbar_logout">
+                    <h:commandLink action="#{login.logout}" rendered="#{login.loggedIn}">Logout</h:commandLink>
+                </li>
+            <li id="navbar_change_password"><h:link outcome="login_pass">Change password</h:link></li>
+            <li id="navbar_messages"><h:link type="button" >Messages <span class="badge">#{login.currentUser.messages.size()}</span></h:link></li>
+            
+           </h:panelGroup>
+           
+            
+            
           </ul>
         </div>
       </nav>
+    </h:form>
 
       <ui:include src="/sections/login_modal.xhtml" />
       <ui:include src="/sections/register_modal.xhtml" />

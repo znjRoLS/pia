@@ -86,6 +86,14 @@ Contributor(s):
         <one-to-many class="Model.AuthorPresentation" />
     </set>
     
+    <set name="messages" table="message"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="user" not-null="true" />
+        </key>
+        <one-to-many class="Model.Message" />
+    </set>
+    
  </class>
 
 </hibernate-mapping>
