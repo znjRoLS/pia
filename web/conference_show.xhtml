@@ -137,7 +137,7 @@
                     <p:inputText value="#{presentation.name}"  />
 
                     <h:outputLabel for="presentation_session" value="Session:" />
-                    <p:selectOneMenu id="presentation_session" value="#{presentation.sessionName}" label="Room"
+                    <p:selectOneMenu id="presentation_session" value="#{presentation.sessionName}" label="Session"
                                           filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
                         <f:selectItems value="#{conference.sessions}" var="sessionconf" itemValue="#{sessionconf.name}" itemLabel="#{sessionconf.name}" />
                     </p:selectOneMenu>

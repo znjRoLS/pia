@@ -162,8 +162,8 @@ public class ConferenceController {
                     sessionConf.setType(type);
 
                     try {
-                        String room = arr.getJSONObject(i).getString("Room");
-                        Integer roomId = Integer.parseInt(room);
+                        Integer roomId = arr.getJSONObject(i).getInt("Room");
+                        //Integer roomId = Integer.parseInt(room);
                         for(Room roomObj : rooms) {
                             if (roomObj.getId() == roomId) {
                                 sessionConf.setRoom(roomObj);
@@ -202,6 +202,13 @@ public class ConferenceController {
 
                     sessions.add(sessionConf);
                     session.save(sessionConf);
+                    
+                    if (sessionConf.getRoom() != null) {
+                        sessionConf.setRoomName(sessionConf.getRoom().getName());
+                    }
+        
+        
+                    
                 }
 
                 arr = obj.getJSONObject("Conference").getJSONArray("Presentations");
@@ -255,6 +262,12 @@ public class ConferenceController {
                         session.save(authPres);
                         presentation.getAuthors().add(authPres);
                     }
+                    
+                    
+                    for (AuthorPresentation authPres : presentation.getAuthors()) {
+                        presentation.getAuthorNames().add(authPres.getAuthor());
+                    }
+                    presentation.setSessionName(presentation.getSession().getName());
 
                 }
                 tx.commit();
@@ -322,9 +335,20 @@ public class ConferenceController {
         sessions = new ArrayList<>();
         for (SessionConf ses : conf.getSessions()) {
             sessions.add(ses);
+            if (ses.getRoom() != null) {
+                ses.setRoomName(ses.getRoom().getName());
+            }
+            
         }
         
         presentations = Presentation.getByConference(selectedConference);
+        
+        for (Presentation presentation : presentations) {
+            for (AuthorPresentation authPres : presentation.getAuthors()) {
+                presentation.getAuthorNames().add(authPres.getAuthor());
+            }
+            presentation.setSessionName(presentation.getSession().getName());
+        }
         
         return "conference_show";
     }
