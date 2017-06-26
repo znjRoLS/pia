@@ -3,16 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
     <ui:composition template="/templates/base_layout.xhtml">	
-        <ui:define name="content">
-            
-            
-            
-            
+        <ui:define name="content">				
+            Naziv: <h:outputText value="#{conference.selectedConference.name}"/> <br/>
+<!--                    <h:button id="lnkHidden" value=" Show Fest " outcome="festival_show">
+               </h:button>-->
         </ui:define>
-    </ui:composition>
-        
-        
+     </ui:composition>
 </html>
+
+
+
 

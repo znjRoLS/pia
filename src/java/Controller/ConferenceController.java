@@ -24,7 +24,7 @@ import org.hibernate.Transaction;
  * @author rols
  */
 @ManagedBean(name="conference")
-@javax.faces.bean.RequestScoped
+@javax.faces.bean.SessionScoped
 public class ConferenceController {
     
      private String conferenceId;
@@ -37,6 +37,13 @@ public class ConferenceController {
     private List<Location> locations;
     private List<String> locationNames;
     private String selectedLocationName;
+    
+    private Conference selectedConference;
+    
+    private String searchText;
+    
+    private List<Conference> allConferences;
+    private List<Conference> filteredConferences;
 
     public ConferenceController() {
         conference = new Conference();
@@ -55,8 +62,19 @@ public class ConferenceController {
             locationNames.add(u.getName());
         }
         
+        allConferences = Conference.getAll();
+        
     }
     
+    public String viewConference(User currentUser, Conference conf) {
+     
+        selectedConference = conf;
+        
+        if (currentUser == null) {
+            return "login";
+        }
+        return "conference_show";
+    }
 //    public void showMusicEvent() {
 //        Session session = HibernateHelper.getFactory().openSession();
 //      Transaction tx = null;
@@ -126,6 +144,19 @@ public class ConferenceController {
       return "index";
     }
 
+    
+    public void searchConferences() {
+        filteredConferences = new ArrayList<>();
+        
+        if (searchText != null) {
+            for (Conference conf : allConferences) {
+                if (conf.getName().contains(searchText)) {
+                    filteredConferences.add(conf);
+                }
+            }
+        }
+    }
+    
     public String getConferenceId() {
         return conferenceId;
     }
@@ -189,6 +220,38 @@ public class ConferenceController {
 
     public void setSelectedLocationName(String selectedLocationName) {
         this.selectedLocationName = selectedLocationName;
+    }
+
+    public Conference getSelectedConference() {
+        return selectedConference;
+    }
+
+    public void setSelectedConference(Conference selectedConference) {
+        this.selectedConference = selectedConference;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+    }
+
+    public List<Conference> getAllConferences() {
+        return allConferences;
+    }
+
+    public void setAllConferences(List<Conference> allConferences) {
+        this.allConferences = allConferences;
+    }
+
+    public List<Conference> getFilteredConferences() {
+        return filteredConferences;
+    }
+
+    public void setFilteredConferences(List<Conference> filteredConferences) {
+        this.filteredConferences = filteredConferences;
     }
 
     

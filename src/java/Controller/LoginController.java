@@ -34,6 +34,8 @@ public class LoginController {
     private String message;
     private boolean loggedIn = false;
     private boolean allValid = false;
+    private boolean isModerator = false;
+    private boolean isAdmin = false;
     private User.UserType userType;
     private User currentUser;
     
@@ -91,16 +93,20 @@ public class LoginController {
         loggedIn = true;
         currentUser = user;
         
+        isAdmin = isModerator = false;
+        
         switch(user.getUserType()) {
             case ADMIN:
-                return "home_admin";
-            case USER:
-                return "home_user";
+                isAdmin = true;
             case MODERATOR:
-                return "home_user";
+                isModerator = true;
         }
+
+        return "index";
         
-        return "login";
+
+//        
+//        return "login";
     }
     
     public String logout() {
@@ -191,6 +197,22 @@ public class LoginController {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public boolean isIsModerator() {
+        return isModerator;
+    }
+
+    public void setIsModerator(boolean isModerator) {
+        this.isModerator = isModerator;
+    }
+
+    public boolean isIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
     
     

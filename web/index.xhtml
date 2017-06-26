@@ -17,7 +17,7 @@
 		<div class="col-md-12">
             <div class="input-group" id="adv-search">
 <!--                <input type="text" class="form-control" placeholder="Search for events" />-->
-                <h:inputText id="search_text" value="#{search.searchText}" required="false"/>
+                <h:inputText id="search_text" value="#{conference.searchText}" required="false"/>
                 
                 <div class="input-group-btn">
                     <div class="btn-group" role="group">
@@ -47,19 +47,50 @@
                                 </form>
                             </div>
                         </div><span class="glyphicon glyphicon-search" aria-hidden="true"> </span>
-                        <p:commandButton action="#{search.filterEvents()}"  class="btn btn-primary" value="Search" update="search_results" />
+                        <p:commandButton action="#{conference.searchConferences()}"  class="btn btn-primary" value="Search" update="search_results" />
                     </div>
                 </div>
             </div>
           </div>
         </div>                
            
-           <p:dataList id="search_results" var="musicEvent" value="#{search.filteredEvents}" >
-                    Naziv: <h:outputLabel value="#{musicEvent.name}"/> <br/>
-                    <h:button id="lnkHidden" value=" Show Fest " outcome="festival_show">
-                    <f:param name="id" value="#{musicEvent.id}" />
-                   </h:button>
+           <!-- Page Content -->
+            <div class="container">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Conferences
+                            <small>choose which to attend</small>
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+
+
+           
+           <p:dataList id="search_results" value="#{conference.filteredConferences}" var="conf" >
+                                <!-- Project One -->
+                <div class="row">
+                    <div class="col-md-7">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x300" alt=""> </img>
+                        </a>
+                    </div>
+                    <div class="col-md-5">
+                        <h3>#{conf.name}</h3>
+                        <h4>#{conf.place}</h4>
+                        <p>Will take place from #{conf.startDate} to #{conf.endDate}</p>
+                        <p:commandButton action="#{conference.viewConference(login.currentUser, conf)}" class="btn btn-primary">View Project <span class="glyphicon glyphicon-chevron-right"></span></p:commandButton>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <hr> </hr>
            </p:dataList>
+                
+            </div> <!-- container -->
     </div>		
            
        </h:form>

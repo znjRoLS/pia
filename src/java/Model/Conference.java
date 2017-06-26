@@ -41,6 +41,30 @@ public class Conference {
     @ElementCollection(targetClass=Integer.class)
     private Set<ModeratorConference> moderators = new HashSet<ModeratorConference>(); //moderators
 
+    public static List<Conference> getAll() {
+        List<Conference> conferences = null;
+        
+        Session session = HibernateHelper.getFactory().openSession();
+        Transaction tx = null;
+        Integer userID = null;
+        try{
+          tx = session.beginTransaction();
+
+          String cmd = "FROM Conference C ";
+          Query query = session.createQuery(cmd);
+          conferences = query.list();
+
+          tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
+        
+        return conferences;
+    }
+    
     public static List<Conference> getByUser(User user) {
         if (user == null) return null;
         
