@@ -5,11 +5,15 @@
  */
 package Model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.faces.context.FacesContext;
 import org.hibernate.*;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -19,6 +23,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -53,6 +59,29 @@ public class User {
     private Set<AuthorPresentation> presentations = new HashSet<AuthorPresentation>(); // for presentations
     private Set<Message> messages = new HashSet<Message>(); // for messages
     private Set<UserConference> conferencesUser = new HashSet<>(); // for attends
+    
+    
+    public final String UPLOADDIR = "C:\\workspace\\UMRI\\pia\\";
+    public final String PROFILEPIC = "uploads\\profilepics\\";
+    
+    public StreamedContent getProfileImage() throws IOException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try{
+//            if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+//                // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
+//                return new DefaultStreamedContent();
+//            }
+//            else {
+                // So, browser is requesting the image. Return a real StreamedContent with the image bytes.
+                String filename = context.getExternalContext().getRequestParameterMap().get("filename");
+                File file = new File(UPLOADDIR + PROFILEPIC, getProfile_pic());
+                FileInputStream fs = new FileInputStream(file);
+                return new DefaultStreamedContent(fs);
+//            }
+        } catch(Exception e) {
+            return null;
+        }
+    }
     
     
     public static List<User> getModerators() {
@@ -111,6 +140,30 @@ public class User {
         tx = session.beginTransaction();
          
         String cmd = "FROM User E WHERE E.enabled <> true AND E.username <> null";
+        Query query = session.createQuery(cmd);
+        users = query.list();
+  
+        tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      
+      return users;
+    }
+    
+    public static List<User> getAll() {
+      List<User> users = null;
+        
+      Session session = HibernateHelper.getFactory().openSession();
+      Transaction tx = null;
+      Integer userID = null;
+      try{
+        tx = session.beginTransaction();
+         
+        String cmd = "FROM User E ";
         Query query = session.createQuery(cmd);
         users = query.list();
   
@@ -484,7 +537,39 @@ public class User {
         this.profile_pic = profile_pic;
     }
 
+    public int getUnreadMessages() {
+        
+        int unreadMessages = 0;
+        for (Message message : messages) {
+            if (message.getRead() == 0) {
+                unreadMessages ++;
+            }
+        }
+        
+        return unreadMessages;
+    }   
     
+    public List<Message> getReadMsgs() {
+        List<Message> msgs = new ArrayList<>();
+        
+        for (Message msg : messages) {
+            if (msg.getRead() == 1) {
+                msgs.add(msg);
+            }
+        }
+        return msgs;
+    }
+    
+    public List<Message> getUnreadMsgs() {
+         List<Message> msgs = new ArrayList<>();
+        
+        for (Message msg : messages) {
+            if (msg.getRead() == 0) {
+                msgs.add(msg);
+            }
+        }
+        return msgs;
+    }
     
     
 }

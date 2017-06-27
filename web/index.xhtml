@@ -33,7 +33,7 @@
                     </div>
                     
                     <div class="row" style="text-align: center; margin-top:20px">
-                        <p:commandButton action="#{conference_user.searchConferences}"  class="btn btn-primary" value="Search" update="search_results" />
+                        <p:commandButton action="#{conference_user.searchConferences(login.currentUser)}"  class="btn btn-primary" value="Search" update="search_results" />
                     </div>
                 </div>             
                 
@@ -61,7 +61,9 @@
                                 <h4>#{conf.place}</h4>
                                 <p>Will take place from #{conf.startDate} to #{conf.endDate}</p>
                                 <p:commandButton action="#{conference_moderator.viewConference(login.currentUser, conf)}" class="btn btn-primary" value="View conference"> <span class="glyphicon glyphicon-chevron-right"></span></p:commandButton>
-                                <p:commandButton action="#{conference_user.registerForConference(login.currentUser, conf)}" class="btn btn-primary" value="Register"> <span class="glyphicon glyphicon-chevron-right"></span></p:commandButton>
+                                <p:commandButton action="#{conference_user.registerForConference(login.currentUser, conf)}" class="btn btn-primary" value="Register" disabled="#{!conf.canRegister}" rendered="#{!login.isAdmin and !login.isModerator and login.loggedIn and !conf.registred}" update="search_results"> <span class="glyphicon glyphicon-chevron-right"></span></p:commandButton>
+                                <p:commandButton class="btn btn-success" value="Registered!" disabled="true" rendered="#{!login.isAdmin and !login.isModerator and login.loggedIn and conf.registred}"> <span class="glyphicon glyphicon-chevron-right"></span></p:commandButton>
+                                
                             </div>
                         </div>
                         <!-- /.row -->

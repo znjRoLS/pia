@@ -5,10 +5,12 @@
  */
 package Controller;
 
+import Model.Message;
 import Model.User;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -44,28 +46,8 @@ public class LoginController {
     private User.UserType userType;
     private User currentUser;
     
-    
-    public final String UPLOADDIR = "C:\\workspace\\UMRI\\pia\\";
-    public final String PROFILEPIC = "uploads\\profilepics\\";
-    
-    public StreamedContent getProfileImage() throws IOException {
-        FacesContext context = FacesContext.getCurrentInstance();
-        try{
-            if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-                // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
-                return new DefaultStreamedContent();
-            }
-            else {
-                // So, browser is requesting the image. Return a real StreamedContent with the image bytes.
-                String filename = context.getExternalContext().getRequestParameterMap().get("filename");
-                File file = new File(UPLOADDIR + PROFILEPIC, currentUser.getProfile_pic());
-                FileInputStream fs = new FileInputStream(file);
-                return new DefaultStreamedContent(fs);
-            }
-        } catch(Exception e) {
-            return null;
-        }
-    }
+    private List<Message> unreadMsgs;
+    private List<Message> readMsgs;
     
     public String ChangePassword() {
         if (!currentUser.getPassword().equals(password)) {

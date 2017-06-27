@@ -49,9 +49,9 @@
                                 <h:commandLink action="#{login.logout}" rendered="#{login.loggedIn}">Logout</h:commandLink>
                             </li>
                             <li id="navbar_change_password"><h:link outcome="login_pass">Change password</h:link></li>
-                            <li id="navbar_messages"><h:link outcome="messages_view" type="button" >Messages <span class="badge">#{login.currentUser.messages.size()}</span></h:link></li>
+                            <li id="navbar_messages"><h:link outcome="messages_view" type="button" >Messages <span class="badge">#{login.currentUser.unreadMessages}</span></h:link></li>
                             
-                            <li if="navbar_profile_pic"><p:graphicImage value="#{login.profileImage}" height="50px" width="50px" ></p:graphicImage> </li>
+                            <li if="navbar_profile_pic"><p:graphicImage value="#{login.currentUser.profileImage}" height="50px" width="50px" ></p:graphicImage> </li>
                         </h:panelGroup>
                         
                         

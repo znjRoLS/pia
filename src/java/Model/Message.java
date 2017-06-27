@@ -6,6 +6,11 @@
 package Model;
 
 import java.util.Date;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -19,6 +24,30 @@ public class Message {
     private Date time;
     private int read;
     
+    
+    public static void addMessage(User user1, User user2, String body) {
+        Message message = new Message();
+        message.setBody(body);
+        message.setUser(user2);
+        message.setTime(new Date());
+        message.setRead(0);
+        message.setSubject("Message from " + user1.getUsername());
+        
+        Session session = HibernateHelper.getFactory().openSession();
+        Transaction tx = null;
+        try{
+          tx = session.beginTransaction();
+
+          session.save(message);
+
+          tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
+    }
     
     public int getMessage_id() {
         return message_id;

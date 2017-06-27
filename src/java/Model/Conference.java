@@ -7,6 +7,7 @@ package Model;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -41,11 +42,57 @@ public class Conference {
     private Date startTime;
     private Date endTime;
     
+    private boolean canRegister;
+    private boolean registred;
+    
     @ElementCollection(targetClass=Integer.class)
     private Set<ModeratorConference> moderators = new HashSet<ModeratorConference>(); //moderators
     private Set<SessionConf> sessions = new HashSet<>(); //sessions
     private Set<UserConference> users = new HashSet<>(); //reg users
+    
+    public void checkIfRegistered(User user) {
+        Session session = HibernateHelper.getFactory().openSession();
+        Transaction tx = null;
+        try{
+          tx = session.beginTransaction();
 
+          String cmd = "FROM UserConference C WHERE C.user = :user AND C.conference = :conference";
+          Query query = session.createQuery(cmd);
+          query.setParameter("user", user);
+          query.setParameter("conference", this);
+          List<Object> res = query.list();
+          registred = res.size() > 0;
+
+          tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
+    }
+    
+    
+    public Conference() {
+        
+        try{
+        
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate);
+            cal.add(Calendar.DATE, -3);
+            Date before3days = cal.getTime(); 
+
+            Date today = new Date();
+
+            canRegister = !startDate.before(today) && !before3days.after(today);
+        } catch (Exception e) {
+            canRegister = false;
+        }
+    
+    }
+
+    
+    
     public static List<Conference> getAll() {
         List<Conference> conferences = null;
         
@@ -198,6 +245,19 @@ public class Conference {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+        
+        try{
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate);
+            cal.add(Calendar.DATE, -3);
+            Date before3days = cal.getTime(); 
+
+            Date today = new Date();
+
+            canRegister = !startDate.before(today) && !before3days.after(today);
+        } catch (Exception e) {
+            canRegister = false;
+        }
     }
 
     public Date getEndDate() {
@@ -254,6 +314,22 @@ public class Conference {
 
     public void setUsers(Set<UserConference> users) {
         this.users = users;
+    }
+
+    public boolean isCanRegister() {
+        return canRegister;
+    }
+
+    public void setCanRegister(boolean canRegister) {
+        this.canRegister = canRegister;
+    }
+
+    public boolean isRegistred() {
+        return registred;
+    }
+
+    public void setRegistred(boolean registred) {
+        this.registred = registred;
     }
     
     

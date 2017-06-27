@@ -8,145 +8,201 @@
     
     <ui:composition template="/templates/base_layout.xhtml">	
         <ui:define name="content">				
-          
-          
-                <!-- Form Name -->
-                <legend>Conference data!</legend>
-
-                <!-- Text input-->
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label">Name</label>  
-                  <div class="col-md-4 inputGroupContainer">
+            
+            
+            <!-- Form Name -->
+            <legend>Conference data!</legend>
+            
+            <!-- Text input-->
+            
+            <div class="form-group">
+                <label class="col-md-4 control-label">Name</label>  
+                <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <p:outputLabel value="#{conference_moderator.selectedConference.name}" />
                     </div>
-                  </div>
                 </div>
-                
-                <div class="form-group">
-                  <label class="col-md-4 control-label">Start date</label>  
-                  <div class="col-md-4 inputGroupContainer">
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-4 control-label">Start date</label>  
+                <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <p:outputLabel value="#{conference_moderator.selectedConference.startDate}" />
                     </div>
-                  </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-md-4 control-label">End date</label>  
-                  <div class="col-md-4 inputGroupContainer">
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">End date</label>  
+                <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <p:outputLabel value="#{conference_moderator.selectedConference.endDate}" />
                     </div>
-                  </div>
                 </div>
-                
-                <div class="form-group">
-                  <label class="col-md-4 control-label">Start time</label>  
-                  <div class="col-md-4 inputGroupContainer">
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-4 control-label">Start time</label>  
+                <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <p:outputLabel id="start_time" value="#{conference_moderator.selectedConference.startTime}"  />
                     </div>
-                  </div>
                 </div>
-                
-                <div class="form-group">
-                  <label class="col-md-4 control-label">End time</label>  
-                  <div class="col-md-4 inputGroupContainer">
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-4 control-label">End time</label>  
+                <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <p:outputLabel id="end_time" value="#{conference_moderator.selectedConference.endTime}"/>
                     </div>
-                  </div>
                 </div>
+            </div>
+            
+            <p:dataList id="sessions_list" var="sessionconf" value="#{conference_moderator.sessions}" >
+                <f:facet name="header">
+                    Session
+                </f:facet>
+                <label>Name</label>
+                <p:outputLabel value="#{sessionconf.name}"  />
+                <label>Type</label>
+                <p:outputLabel value="#{sessionconf.type}"  />
                 
-                <p:dataList id="sessions_list" var="sessionconf" value="#{conference_moderator.sessions}" >
-                    <f:facet name="header">
-                        Session
-                    </f:facet>
-                    <label>Name</label>
-                    <p:outputLabel value="#{sessionconf.name}"  />
-                    <label>Type</label>
-                    <p:outputLabel value="#{sessionconf.type}"  />
-                    
-                    <h:outputLabel for="session_room" value="Room:" />
-                    <p:outputLabel value="#{sessionconf.roomName}"  />
-                    
-                    <div class="form-group">
+                <h:outputLabel for="session_room" value="Room:" />
+                <p:outputLabel value="#{sessionconf.roomName}"  />
+                
+                <div class="form-group">
                     <label class="col-md-4 control-label">Date</label>  
                     <div class="col-md-4 inputGroupContainer">
-                      <div class="input-group">
-                          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                          <p:outputLabel id="session_date" value="#{sessionconf.date}" />
-                      </div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <p:outputLabel id="session_date" value="#{sessionconf.date}" />
+                        </div>
                     </div>
-                  </div>
-                    
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Start time</label>  
-                        <div class="col-md-4 inputGroupContainer">
-                          <div class="input-group">
-                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:outputLabel id="session_start_time" value="#{sessionconf.startTime}"  />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="col-md-4 control-label">End time</label>  
-                        <div class="col-md-4 inputGroupContainer">
-                          <div class="input-group">
-                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:outputLabel id="session_end_time" value="#{sessionconf.endTime}"  />
-                          </div>
-                        </div>
-                      </div>
-                  
-                    
-                    
-                </p:dataList>
+                </div>
                 
-                <p:dataList id="presentations_list" var="presentation" value="#{conference_moderator.presentations}" >
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Start time</label>  
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <p:outputLabel id="session_start_time" value="#{sessionconf.startTime}"  />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-md-4 control-label">End time</label>  
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <p:outputLabel id="session_end_time" value="#{sessionconf.endTime}"  />
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+            </p:dataList>
+            
+            <p:dataList id="presentations_list" var="presentation" value="#{conference_moderator.presentations}" >
+                <f:facet name="header">
+                    Presentation
+                </f:facet>
+                <label>Name</label>
+                <p:outputLabel value="#{presentation.name}"  />
+                
+                <h:outputLabel for="presentation_session" value="Session:" />
+                <h:outputLabel  value="#{presentation.sessionName}" />
+                
+                
+                <p:dataList id="authors" var="author" value="#{presentation.authorNames}" >
                     <f:facet name="header">
                         Presentation
                     </f:facet>
                     <label>Name</label>
-                    <p:outputLabel value="#{presentation.name}"  />
-
-                    <h:outputLabel for="presentation_session" value="Session:" />
-                    <h:outputLabel  value="#{presentation.sessionName}" />
-                    
-
-                    <p:dataList id="authors" var="author" value="#{presentation.authorNames}" >
-                        <f:facet name="header">
-                            Presentation
-                        </f:facet>
-                        <label>Name</label>
-                        <p:outputLabel value="#{author.first_name}"  />
-                        <label>Surname</label>
-                        <p:outputLabel value="#{author.last_name}"  />
-                    </p:dataList>
-                    
-                    <p:commandButton value="Add new author" action="#{presentation.addAuthor()}" update="authors" />
-                    
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Start time</label>  
-                        <div class="col-md-4 inputGroupContainer">
-                          <div class="input-group">
-                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                              <p:outputLabel id="presentation_start_time" value="#{presentation.startTime}" />
-                          </div>
-                        </div>
-                      </div>
-
+                    <p:outputLabel value="#{author.first_name}"  />
+                    <label>Surname</label>
+                    <p:outputLabel value="#{author.last_name}"  />
                 </p:dataList>
-
+                
+                <p:commandButton value="Add new author" action="#{presentation.addAuthor()}" update="authors" />
+                
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Start time</label>  
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <p:outputLabel id="presentation_start_time" value="#{presentation.startTime}" />
+                        </div>
+                    </div>
+                </div>
+                
+            </p:dataList>
+            
+            <p:dataList  id="registered_users" var="user" value="#{conference_moderator.registeredUsers}" >
+                <div class="row">
+                    <div class="col-md-3">
+                        <p:graphicImage value="#{user.profileImage}" height="50px" width="50px" ></p:graphicImage>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <h:outputLabel value="#{user.username}" />
+                    </div >
+                    
+                    <div class="col-md-5">
+                        <button type="button" class="open-AddBookDialog btn btn-primary" data-toggle="modal" data-target="#myModal" data-id="#{user.username}">
+                            Send message
+                        </button>
+                    </div>
+                </div>
+            </p:dataList>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <h:form id="formA">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Write a message</h5>
+                                <h3 id="username">
+                                </h3>
+                                <h:inputHidden id="messageTo" value="#{conference_user.messageTo}" />
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <h:inputTextarea value="#{conference_user.message_body}"></h:inputTextarea>
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <p:commandButton class="btn btn-primary" action="#{conference_user.sendMessage(login.currentUser)}" value="Send"></p:commandButton>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(document).on("click", ".open-AddBookDialog", function () {
+                    var myBookId = $(this).data('id');
+                    $(".modal-header #username").html( myBookId );
+                    console.log(myBookId);
+                    document.getElementById("formA:messageTo").value = myBookId;
+                    // As pointed out in comments, 
+                    // $('#addBookDialog').modal('show');
+               });
+            </script>
+            
         </ui:define>
-     </ui:composition>
+    </ui:composition>
+    
+    
 </html>
 
 

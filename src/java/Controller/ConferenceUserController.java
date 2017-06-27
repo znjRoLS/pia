@@ -6,12 +6,17 @@
 package Controller;
 
 import Model.Conference;
+import Model.HibernateHelper;
+import Model.Message;
 import Model.User;
 import Model.UserConference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -29,11 +34,26 @@ public class ConferenceUserController {
     private Date startDate;
     private Date endDate;
     
+    private String message_body;
+    private String messageTo;
+    
+    
+    private List<Message> unreadMsgs;
+    private List<Message> readMsgs;
+    
     public ConferenceUserController() {
         allConferences = Conference.getAll();
         filteredConferences = new ArrayList<>();
         
-        
+    }
+    
+    public void sendMessage(User currUser) {
+        for (User user : User.getAll()) {
+            if (user.getUsername() == null) continue;
+            if (user.getUsername().equals(messageTo)) {
+                Message.addMessage(currUser, user, message_body);
+            }
+        }
         
     }
     
@@ -41,12 +61,18 @@ public class ConferenceUserController {
         registredConferences = Conference.getByRegistredUser(user);
     }
     
-    public void searchConferences() {
+    public void searchConferences(User user) {
         filteredConferences = new ArrayList<>();
+        
+        Date today = new Date();
         
         if (searchText != null) {
             for (Conference conf : allConferences) {
                
+                if (conf.getEndDate().before(today)) {
+                    continue;
+                }
+                
                 if (searchText != null && !conf.getName().contains(searchText)) {
                     continue;
                 }
@@ -57,14 +83,46 @@ public class ConferenceUserController {
                     continue;
                 }
                 
+                
                 filteredConferences.add(conf);
+                
+                if (user != null) {
+                    conf.checkIfRegistered(user);
+                }
+                
             }
+        }
+        
+        
+    }
+    
+    public void readAllMessages(User user) {
+        
+        readMsgs = user.getReadMsgs();
+        unreadMsgs = user.getUnreadMsgs();
+        
+        Session session = HibernateHelper.getFactory().openSession();
+        Transaction tx = null;
+        try{
+          tx = session.beginTransaction();
+
+          for (Message message : user.getMessages()) {
+            message.setRead(1);
+            session.update(message);
+        }
+
+          tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
         }
     }
     
     public void registerForConference(User user, Conference conference) {
         UserConference.addNew(user, conference);
-        
+        conference.setRegistred(true);
     }
 
     public List<Conference> getAllConferences() {
@@ -113,6 +171,38 @@ public class ConferenceUserController {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getMessage_body() {
+        return message_body;
+    }
+
+    public void setMessage_body(String message_body) {
+        this.message_body = message_body;
+    }
+
+    public String getMessageTo() {
+        return messageTo;
+    }
+
+    public void setMessageTo(String messageTo) {
+        this.messageTo = messageTo;
+    }
+
+    public List<Message> getUnreadMsgs() {
+        return unreadMsgs;
+    }
+
+    public void setUnreadMsgs(List<Message> unreadMsgs) {
+        this.unreadMsgs = unreadMsgs;
+    }
+
+    public List<Message> getReadMsgs() {
+        return readMsgs;
+    }
+
+    public void setReadMsgs(List<Message> readMsgs) {
+        this.readMsgs = readMsgs;
     }
     
     

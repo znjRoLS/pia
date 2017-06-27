@@ -6,10 +6,14 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{conference_user.readAllMessages(login.currentUser)}" />
+    </f:metadata>
     
     <ui:composition template="/templates/base_layout.xhtml">	
-        <ui:define name="content">				
-            <p:dataList  value="#{login.currentUser.messages}" var="message" >
+        <ui:define name="content">	
+            <h3>Unread messages:</h3>
+            <p:dataList  value="#{conference_user.unreadMsgs}" var="message" >
                                 <!-- Project One -->
                 <div class="row">
                     <div class="col-md-3">
@@ -22,6 +26,22 @@
                 </div>
                 <hr> </hr>
            </p:dataList>
+            
+            <h3>Read messages:</h3>
+            <p:dataList  value="#{conference_user.readMsgs}" var="message" >
+                                <!-- Project One -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <h3>#{message.subject}</h3>
+                    </div>
+                    <div class="col-md-9">
+                        <h3>#{message.body}</h3>
+                        <h5>Sent at: #{message.time}</h5>
+                    </div>
+                </div>
+                <hr> </hr>
+           </p:dataList>
+            
         </ui:define>
      </ui:composition>
 </html>

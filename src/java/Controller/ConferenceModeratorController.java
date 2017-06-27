@@ -57,6 +57,7 @@ public class ConferenceModeratorController {
     
     
     private Conference selectedConference;
+    private List<User> registeredUsers;
     
     
     private List<SessionConf> sessions;
@@ -527,6 +528,8 @@ public class ConferenceModeratorController {
             return "login";
         }
         
+        registeredUsers = Conference.getRegistredUsers(conf);
+        
         sessions = new ArrayList<>();
         for (SessionConf ses : conf.getSessions()) {
             sessions.add(ses);
@@ -604,7 +607,7 @@ public class ConferenceModeratorController {
             session.save(sessionConf);
         }
         
-        session.save(selectedConference);
+        session.update(selectedConference);
         
         
         tx.commit();
@@ -674,6 +677,14 @@ public class ConferenceModeratorController {
 
     public void setFileUploadError(String fileUploadError) {
         this.fileUploadError = fileUploadError;
+    }
+
+    public List<User> getRegisteredUsers() {
+        return registeredUsers;
+    }
+
+    public void setRegisteredUsers(List<User> registeredUsers) {
+        this.registeredUsers = registeredUsers;
     }
 
     
