@@ -1,67 +1,69 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition> 
-                        <h:form>
-     <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <ul class="nav navbar-nav">
-            <li id="navbar_index"><h:link outcome="index">Home</h:link></li>
-            
-            
-            <!-- admin section -->
-            <h:panelGroup rendered="#{login.loggedIn and login.isAdmin}">
-               <li id="navbar_registrations"><h:link outcome="registrations">Registrations</h:link></li>
-               <li id="navbar_conference_add"><h:link outcome="conference_add">Add conference</h:link></li>
-               <li id="navbar_conferences_view_admin"><h:link outcome="conference_view_admin">View all conferences</h:link></li>
-           
-           </h:panelGroup>
-            <!-- moderator section -->
-            <h:panelGroup rendered="#{login.loggedIn and login.isModerator}">
-               <li id="navbar_conferences_view"><h:link outcome="conference_view">View my conferences</h:link></li>
-           </h:panelGroup>
-            
-            <!-- normal user section -->
-            <h:panelGroup rendered="#{login.loggedIn and !login.isModerator and !login.isAdmin}">
-               <li id="navbar_conferences_view_user"><h:link outcome="conference_view_user">Upcoming conferences</h:link></li>
-           </h:panelGroup>
-            
-          </ul>
-            
-            <!--<div class="navbar-brand"> Confex!</div>-->
-<!--          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Confex! Online conference maker and organizer!</a>
-          </div>-->
-          
-          <ul class="nav navbar-nav navbar-right">
-            <!-- not loggedin section -->
-            <h:panelGroup rendered="#{!login.loggedIn}">
-                <li id="navbar_login"><h:link outcome="login">Login</h:link></li>
-                <li id="navbar_register"><h:link outcome="register">Register</h:link></li>
-            </h:panelGroup>
-            
-            <!-- logout section -->
-           <h:panelGroup rendered="#{login.loggedIn}">
-<!--                <li><a href="#" data-toggle="modal" data-target="#register_modal" >Register2</a></li>-->
-                <li id="navbar_logout">
-                    <h:commandLink action="#{login.logout}" rendered="#{login.loggedIn}">Logout</h:commandLink>
-                </li>
-            <li id="navbar_change_password"><h:link outcome="login_pass">Change password</h:link></li>
-            <li id="navbar_messages"><h:link outcome="messages_view" type="button" >Messages <span class="badge">#{login.currentUser.messages.size()}</span></h:link></li>
-            
-           </h:panelGroup>
-           
-            
-            
-          </ul>
-        </div>
-      </nav>
-    </h:form>
-
-      <ui:include src="/sections/login_modal.xhtml" />
-      <ui:include src="/sections/register_modal.xhtml" />
-  </ui:composition>
-
+        <h:form>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav">
+                        <li id="navbar_index"><h:link outcome="index">Home</h:link></li>
+                        
+                        
+                        <!-- admin section -->
+                        <h:panelGroup rendered="#{login.loggedIn and login.isAdmin}">
+                            <li id="navbar_registrations"><h:link outcome="registrations">Registrations</h:link></li>
+                            <li id="navbar_conference_add"><h:link outcome="conference_add">Add conference</h:link></li>
+                            <li id="navbar_conferences_view_admin"><h:link outcome="conference_view_admin">View all conferences</h:link></li>
+                            
+                        </h:panelGroup>
+                        <!-- moderator section -->
+                        <h:panelGroup rendered="#{login.loggedIn and login.isModerator}">
+                            <li id="navbar_conferences_view"><h:link outcome="conference_view">View my conferences</h:link></li>
+                        </h:panelGroup>
+                        
+                        <!-- normal user section -->
+                        <h:panelGroup rendered="#{login.loggedIn and !login.isModerator and !login.isAdmin}">
+                            <li id="navbar_conferences_view_user"><h:link outcome="conference_view_user">Upcoming conferences</h:link></li>
+                        </h:panelGroup>
+                        
+                    </ul>
+                    
+                    <!--<div class="navbar-brand"> Confex!</div>-->
+                    <!--          <div class="navbar-header">
+                                <a class="navbar-brand" href="#">Confex! Online conference maker and organizer!</a>
+                              </div>-->
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- not loggedin section -->
+                        <h:panelGroup rendered="#{!login.loggedIn}">
+                            <li id="navbar_login"><h:link outcome="login">Login</h:link></li>
+                            <li id="navbar_register"><h:link outcome="register">Register</h:link></li>
+                        </h:panelGroup>
+                        
+                        <!-- logout section -->
+                        <h:panelGroup rendered="#{login.loggedIn}">
+                            <!--                <li><a href="#" data-toggle="modal" data-target="#register_modal" >Register2</a></li>-->
+                            <li id="navbar_logout">
+                                <h:commandLink action="#{login.logout}" rendered="#{login.loggedIn}">Logout</h:commandLink>
+                            </li>
+                            <li id="navbar_change_password"><h:link outcome="login_pass">Change password</h:link></li>
+                            <li id="navbar_messages"><h:link outcome="messages_view" type="button" >Messages <span class="badge">#{login.currentUser.messages.size()}</span></h:link></li>
+                            
+                            <li if="navbar_profile_pic"><p:graphicImage value="#{login.profileImage}" height="50px" width="50px" ></p:graphicImage> </li>
+                        </h:panelGroup>
+                        
+                        
+                        
+                    </ul>
+                </div>
+            </nav>
+        </h:form>
+        
+        <ui:include src="/sections/login_modal.xhtml" />
+        <ui:include src="/sections/register_modal.xhtml" />
+    </ui:composition>
+    
 </html>
 

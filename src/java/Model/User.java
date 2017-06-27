@@ -44,8 +44,9 @@ public class User {
     private boolean enabled;
     private boolean sex;
     private String linkedin;
-    private Integer shirt_size;
+    private String shirt_size;
     private String institution;
+    private String profile_pic;
     
     @ElementCollection(targetClass=Integer.class)
     private Set<ModeratorConference> conferences = new HashSet<ModeratorConference>(); // for moderators
@@ -299,10 +300,8 @@ public class User {
       
       return user;
     }
-    
 
-    public User(int id, String first_name, String last_name, String username, String password, String phone, String email, Date created, UserType type, boolean enabled) {
-        this.userId = id;
+    public User(String first_name, String last_name, String username, String password, String phone, String email, Date created, UserType type, boolean enabled, boolean sex, String linkedin, String shirt_size, String institution, String profile_pic) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -312,7 +311,15 @@ public class User {
         this.created = created;
         this.type = type;
         this.enabled = enabled;
+        this.sex = sex;
+        this.linkedin = linkedin;
+        this.shirt_size = shirt_size;
+        this.institution = institution;
+        this.profile_pic = profile_pic;
     }
+    
+
+    
 
     public User() {
     }
@@ -419,13 +426,15 @@ public class User {
         this.linkedin = linkedin;
     }
 
-    public Integer getShirt_size() {
+    public String getShirt_size() {
         return shirt_size;
     }
 
-    public void setShirt_size(Integer shirt_size) {
+    public void setShirt_size(String shirt_size) {
         this.shirt_size = shirt_size;
     }
+
+    
 
     public String getInstitution() {
         return institution;
@@ -465,6 +474,14 @@ public class User {
 
     public void setConferencesUser(Set<UserConference> conferencesUser) {
         this.conferencesUser = conferencesUser;
+    }
+
+    public String getProfile_pic() {
+        return profile_pic;
+    }
+
+    public void setProfile_pic(String profile_pic) {
+        this.profile_pic = profile_pic;
     }
 
     

@@ -9,6 +9,7 @@ import Model.Conference;
 import Model.User;
 import Model.UserConference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 
@@ -25,6 +26,8 @@ public class ConferenceUserController {
     private List<Conference> registredConferences;
     
     private String searchText;
+    private Date startDate;
+    private Date endDate;
     
     public ConferenceUserController() {
         allConferences = Conference.getAll();
@@ -43,9 +46,18 @@ public class ConferenceUserController {
         
         if (searchText != null) {
             for (Conference conf : allConferences) {
-                if (conf.getName().contains(searchText)) {
-                    filteredConferences.add(conf);
+               
+                if (searchText != null && !conf.getName().contains(searchText)) {
+                    continue;
                 }
+                if (startDate != null && conf.getStartDate().before(startDate)) {
+                    continue;
+                }
+                if (endDate != null && conf.getEndDate().after(endDate)) {
+                    continue;
+                }
+                
+                filteredConferences.add(conf);
             }
         }
     }
@@ -85,6 +97,22 @@ public class ConferenceUserController {
 
     public void setRegistredConferences(List<Conference> registredConferences) {
         this.registredConferences = registredConferences;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
     
     

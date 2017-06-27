@@ -58,8 +58,9 @@ Contributor(s):
     <property name="enabled" column="enabled" type="boolean"/>
     <property name="sex" column="sex" type="boolean"/>
     <property name="linkedin" column="linkedin" type="string"/>
-    <property name="shirt_size" column="shirt_size" type="integer"/>
+    <property name="shirt_size" column="shirt_size" type="string"/>
     <property name="institution" column="institution" type="string"/>
+    <property name="profile_pic" column="profile_pic" type="string"/>
     
 <!--    <set name="conferences" table="conference_moderator" inverse="true" lazy="true" fetch="select">
         <key>

@@ -2,69 +2,112 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <div class="loginmodal-container">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <div id="loginmodal-container" class="loginmodal-container">
         <h:form>
             <h:panelGrid columns="3">
-              #{msgs.promptFirst_name}  
-              <label>First name  </label>
-              <h:inputText id="first_name" value="#{register.first_name}" required="true"
-                           requiredMessage="Please enter your first name"/>
-              <h:message for="first_name" class="error-text alert alert-danger" />
-              
-              #{msgs.promptLast_name}  
-              <label>Last name  </label>
-              <h:inputText id="last_name" value="#{register.last_name}" />
-              <h:message for="last_name" class="error-text alert alert-danger" />
-              
-              #{msgs.promptUsername}  
-              <label>Username  </label>
-              <h:inputText id="username" value="#{register.username}" required="true"
-                           requiredMessage="Please enter your username"
-                           validator="#{register.ValidateUsername}">
-                  <f:ajax event="blur" render="usernameError register_button" />
-              </h:inputText>
-            <h:message id="usernameError" for="username" class="error-text alert alert-danger" />
-              
-              
-
-              #{msgs.promptPassword}
-              <label>Password  </label>
-              <h:inputSecret id="password" value="#{register.password}" required="true"
-                             requiredMessage="Please enter your password" 
-                             validator="#{register.ValidatePassword}">
-                  <f:attribute name="passwordRepeat" value="#{passwordRepeat.submittedValue}" />
-                  <f:ajax execute="password_repeat password" event="blur" render="passwordError register_button" />
-              </h:inputSecret>
-              <h:message id="passwordError" for="password" class="error-text alert alert-danger" />
-              
-              #{msgs.promptPassword_repeat}
-              <label>Repeat password  </label>
-              <h:inputSecret id="password_repeat" binding="#{passwordRepeat}" required="true"
-                             requiredMessage="Please enter your repeated password">
-                  <f:ajax execute="password_repeat password" event="blur" render="passwordError passwordRepeatError register_button" />
-              </h:inputSecret>
-              <h:message id="passwordRepeatError" for="password_repeat" class="error-text alert alert-danger" />
-              
-              #{msgs.promptEmail}  
-              <label>Email  </label>
-              <h:inputText id="email" value="#{register.email}" required="true"
-                           requiredMessage="Please enter your email"
-                           validator="#{register.ValidateEmail}">
-                <f:ajax execute="email" event="blur" render="emailError register_button" />
-              </h:inputText>
-           
-              <h:message id="emailError" for="email" class="error-text alert alert-danger" />
-              
-              #{msgs.promptPhone}  
-              <label>Phone  </label>
-              <h:inputText id="phone" value="#{register.phone}" required="true"
-                           requiredMessage="Please enter your phone"/>
-              <h:message for="phone" class="error-text alert alert-danger" />
+                #{msgs.promptFirst_name}  
+                <label>First name  </label>
+                <h:inputText id="first_name" value="#{register.first_name}" required="true"
+                             requiredMessage="Please enter your first name"/>
+                <h:message for="first_name" class="error-text alert alert-danger" />
+                
+                #{msgs.promptLast_name}  
+                <label>Last name  </label>
+                <h:inputText id="last_name" value="#{register.last_name}" />
+                <h:message for="last_name" class="error-text alert alert-danger" />
+                
+                #{msgs.promptUsername}  
+                <label>Username  </label>
+                <h:inputText id="username" value="#{register.username}" required="true"
+                             requiredMessage="Please enter your username"
+                             validator="#{register.ValidateUsername}">
+                    <f:ajax event="blur" render="usernameError register_button" />
+                </h:inputText>
+                <h:message id="usernameError" for="username" class="error-text alert alert-danger" />
+                
+                
+                
+                #{msgs.promptPassword}
+                <label>Password  </label>
+                <h:inputSecret id="password" value="#{register.password}" required="true"
+                               requiredMessage="Please enter your password" 
+                               validator="#{register.ValidatePassword}">
+                    <f:attribute name="passwordRepeat" value="#{passwordRepeat.submittedValue}" />
+                    <f:ajax execute="password_repeat password" event="blur" render="passwordError register_button" />
+                </h:inputSecret>
+                <h:message id="passwordError" for="password" class="error-text alert alert-danger" />
+                
+                #{msgs.promptPassword_repeat}
+                <label>Repeat password  </label>
+                <h:inputSecret id="password_repeat" binding="#{passwordRepeat}" required="true"
+                               requiredMessage="Please enter your repeated password">
+                    <f:ajax execute="password_repeat password" event="blur" render="passwordError passwordRepeatError register_button" />
+                </h:inputSecret>
+                <h:message id="passwordRepeatError" for="password_repeat" class="error-text alert alert-danger" />
+                
+                
+                
+                #{msgs.promptEmail}  
+                <label>Email  </label>
+                <h:inputText id="email" value="#{register.email}" required="true"
+                             requiredMessage="Please enter your email"
+                             validator="#{register.ValidateEmail}">
+                    <f:ajax execute="email" event="blur" render="emailError register_button" />
+                </h:inputText>
+                
+                <h:message id="emailError" for="email" class="error-text alert alert-danger" />
+                
+                #{msgs.promptPhone}  
+                <label>Phone  </label>
+                <h:inputText id="phone" value="#{register.phone}" required="true"
+                             requiredMessage="Please enter your phone"/>
+                <h:message for="phone" class="error-text alert alert-danger" />
+                
+                
+                #{msgs.promptInstitution}  
+                <label>Institution  </label>
+                <h:inputText id="institution" value="#{register.institution}" />
+                <h:message for="institution" class="error-text alert alert-danger" />
+                
+                #{msgs.promptLinkedin}  
+                <label>LinkedIn  </label>
+                <h:inputText id="linkedin" value="#{register.linkedin}" />
+                <h:message for="linkedin" class="error-text alert alert-danger" />
+                
+                #{msgs.sex}  
+                <label>Sex  </label>
+                <p:selectOneMenu id="sex" value="#{register.sex}" label="Sex"
+                                 filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                    <f:selectItems value="#{register.sexs}" />
+                </p:selectOneMenu>
+                <h:message for="sex" class="error-text alert alert-danger" />
+                
+                #{msgs.shirt_size}  
+                <label>Shirt size  </label>
+                <p:selectOneMenu id="shirt_size" value="#{register.shirt_size}" label="Shirt size"
+                                 filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                    <f:selectItems value="#{register.shirt_sizes}" />
+                </p:selectOneMenu>
+                <h:message for="shirt_size" class="error-text alert alert-danger" />
+                
             </h:panelGrid>
             <h:commandButton id="register_button" class="login loginmodal-submit" value="Register" action="#{register.TryRegister}"
                              disabled="#{!register.all_valid}"/>
+            
+            
+            <h:outputLabel value="Profile pic:"/>
+            <p:graphicImage value="#{register.image}" height="300px" width="300px">
+                <f:param name="#{register.whole_profile_pic}" value="#{register.whole_profile_pic}" />
+            </p:graphicImage>
+        </h:form >
+        <h:form>
+            <p:fileUpload fileUploadListener="#{register.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                          update="messages" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+            
+            <p:growl id="messages" showDetail="true" />
         </h:form>
-      </div>
+    </div>
 </html>
 
