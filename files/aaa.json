@@ -1,0 +1,293 @@
+{ 
+	"Conference": {
+		"Title": "TELFOR 2018",
+		"Program": [
+		{
+			"SessionName": "Plenary session",
+			"Type": "Open",
+			"Room": 1,
+			"Date": "21/11/2018",
+			"StartTime": "10:00:00 AM",
+			"EndTime": "11:00:00 AM"
+		},
+		{
+			"SessionName": "Welcome cocktail",
+			"Type": "Break",
+			"Room": "",
+			"Date": "21/11/2018",
+			"StartTime": "11:00:00 AM",
+			"EndTime": "01:00:00 PM"
+		},
+		{
+			"SessionName": "Telecomm.networks",
+			"Type": "Session",
+			"Room": 2,
+			"Date": "21/11/2018",
+			"StartTime": "01:00:00 PM",
+			"EndTime": "03:00:00 PM"
+		},
+		{
+			"SessionName": "Radio communications",
+			"Type": "Session",
+			"Room": 3,
+			"Date": "21/11/2018",
+			"StartTime": "01:00:00 PM",
+			"EndTime": "03:00:00 PM"
+		},
+		{
+			"SessionName": "Coffee",
+			"Type": "Break",
+			"Room": "",
+			"Date": "21/11/2018",
+			"StartTime": "03:30:00 PM",
+			"EndTime": "04:00:00 PM"
+		},
+		{
+			"SessionName": "Signal processing",
+			"Type": "Session",
+			"Room": 2,
+			"Date": "21/11/2018",
+			"StartTime": "04:00:00 PM",
+			"EndTime": "06:00:00 PM"
+		},
+		{
+			"SessionName": "Hardware systems",
+			"Type": "Session",
+			"Room": 3,
+			"Date": "21/11/2018",
+			"StartTime": "04:00:00 PM",
+			"EndTime": "06:00:00 PM"
+		},
+		{
+			"SessionName": "Software systems 1",
+			"Type": "Session",
+			"Room": 2,
+			"Date": "22/11/2018",
+			"StartTime": "08:30:00 AM",
+			"EndTime": "10:30:00 AM"
+		},
+		{
+			"SessionName": "Coffee",
+			"Type": "Break",
+			"Room": "",
+			"Date": "22/11/2018",
+			"StartTime": "10:30:00 AM",
+			"EndTime": "11:00:00 AM"
+		},
+		{
+			"SessionName": "Software systems 2",
+			"Type": "Session",
+			"Room": 3,
+			"Date": "22/11/2018",
+			"StartTime": "11:00:00 AM",
+			"EndTime": "01:00:00 PM"
+		},
+		{
+			"SessionName": "Lunch",
+			"Type": "Break",
+			"Room": "",
+			"Date": "22/11/2018",
+			"StartTime": "01:00:00 PM",
+			"EndTime": "02:00:00 PM"
+		},
+		{
+			"SessionName": "Workshop IoT",
+			"Type": "WS",
+			"Room": 2,
+			"Date": "22/11/2018",
+			"StartTime": "02:00:00 PM",
+			"EndTime": "05:00:00 PM"
+		},
+		{
+			"SessionName": "Workshop PhD",
+			"Type": "WS",
+			"Room": 3,
+			"Date": "22/11/2018",
+			"StartTime": "02:00:00 PM",
+			"EndTime": "05:00:00 PM"
+		},
+		{
+			"SessionName": "Workshop SensorNets",
+			"Type": "WS",
+			"Room": 4,
+			"Date": "22/11/2018",
+			"StartTime": "02:00:00 PM",
+			"EndTime": "05:00:00 PM"
+		},
+		{
+			"SessionName": "Workshop CloudTech",
+			"Type": "WS",
+			"Room": 5,
+			"Date": "22/11/2018",
+			"StartTime": "02:00:00 PM",
+			"EndTime": "05:00:00 PM"
+		},
+		{
+			"SessionName": "Closing ceremony",
+			"Type": "Close",
+			"Room": 1,
+			"Date": "22/11/2018",
+			"StartTime": "05:00:00 PM",
+			"EndTime": "06:00:00 PM"
+		} ]
+		,
+		"Presentations": [
+		{
+			"PresentationName": "Welcome words of orgineser",
+			"SessionName": "Plenary session",
+			"Authors": "George Paunovic",
+			"StartTime": "10:00:00 AM"
+		},
+		{
+			"PresentationName": "Dean's word",
+			"SessionName": "Plenary session",
+			"Authors": "Zoran Jovanovic",
+			"StartTime": "10:10:00 AM"
+		},
+		{
+			"PresentationName": "Assistant Minister",
+			"SessionName": "Plenary session",
+			"Authors": "Irini Reljin",
+			"StartTime": "10:20:00 AM"
+		},
+		{
+			"PresentationName": "***\"Intro: 5G network",
+			"SessionName": "Plenary session",
+			"Authors": "Vint Cerf",
+			"StartTime": "10:30:00 AM"
+		},
+		{
+			"PresentationName": "Simulator ORT1",
+			"SessionName": "Hardware systems",
+			"Authors": "Filip Hadzic, Marija Punt",
+			"StartTime": "04:00:00 PM"
+		},
+		{
+			"PresentationName": "Simulator ORT2",
+			"SessionName": "Hardware systems",
+			"Authors": "Zarko Stanisavljevic",
+			"StartTime": "04:20:00 PM"
+		},
+		{
+			"PresentationName": "Simulator cash memory",
+			"SessionName": "Hardware systems",
+			"Authors": "Zaki Radivojevic",
+			"StartTime": "04:40:00 PM"
+		},
+		{
+			"PresentationName": "Simulator virtual memory",
+			"SessionName": "Hardware systems",
+			"Authors": "Uros Radenkovic",
+			"StartTime": "05:00:00 PM"
+		},
+		{
+			"PresentationName": "Simulator pipeline",
+			"SessionName": "Hardware systems",
+			"Authors": "Marko Micovic, Zaki Radivojevic, Sasa Stojanovic",
+			"StartTime": "05:20:00 PM"
+		},
+		{
+			"PresentationName": "***\"A new approach in the development of web
+			applications - React JS",
+			"SessionName": "Software systems 1",
+			"Authors": "Sanja Delcev, Drazen Draskovic",
+			"StartTime": "08:30:00 AM"
+		},
+		{
+			"PresentationName": "Angular 4",
+			"SessionName": "Software systems 1",
+			"Authors": "Drazen Draskovic, Sanja Delcev",
+			"StartTime": "09:00:00 AM"
+		},
+		{
+			"PresentationName": "JSF, Spring and MVC",
+			"SessionName": "Software systems 1",
+			"Authors": "Bosko Nikolic",
+			"StartTime": "09:15:00 AM"
+		},
+		{
+			"PresentationName": "Software for plagiarism",
+			"SessionName": "Software systems 1",
+			"Authors": "Marko Misic, Sasa Stojanovic, Zivojin Sustran",
+			"StartTime": "09:30:00 AM"
+		},
+		{
+			"PresentationName": "Parallel systems",
+			"SessionName": "Software systems 1",
+			"Authors": "Maja Vukasovic",
+			"StartTime": "09:45:00 AM"
+		},
+		{
+			"PresentationName": "Unity in education",
+			"SessionName": "Software systems 1",
+			"Authors": "Milana Prodanov",
+			"StartTime": "10:00:00 AM"
+		},
+		{
+			"PresentationName": "BPMN and BPEL notation",
+			"SessionName": "Software systems 1",
+			"Authors": "Stefan Tubic",
+			"StartTime": "10:15:00 AM"
+		},
+		{
+			"PresentationName": "***\"Model driven development ",
+			"SessionName": "Software systems 2",
+			"Authors": "Nemanja Kojic",
+			"StartTime": "11:00:00 AM"
+		},
+		{
+			"PresentationName": "Big data",
+			"SessionName": "Software systems 2",
+			"Authors": "Filip Hadzic, Stefan Tubic",
+			"StartTime": "11:30:00 AM"
+		},
+		{
+			"PresentationName": "Social networks",
+			"SessionName": "Software systems 2",
+			"Authors": "Jelica Protic",
+			"StartTime": "11:45:00 AM"
+		},
+		{
+			"PresentationName": "Software evolution",
+			"SessionName": "Software systems 2",
+			"Authors": "Dragan Bojic",
+			"StartTime": "12:00:00 PM"
+		},
+		{
+			"PresentationName": "Maxeler AppGalery Algorithms",
+			"SessionName": "Software systems 2",
+			"Authors": "Nenad Korolija, Jovan Jovanovic, Petar Petrovic",
+			"StartTime": "12:15:00 PM"
+		},
+		{
+			"PresentationName": "Compilers",
+			"SessionName": "Software systems 2",
+			"Authors": "Maja Vukasovic, Nemanja Kojic, Dragan Bojic",
+			"StartTime": "12:30:00 PM"
+		},
+		{
+			"PresentationName": "HOW TO GENERATE A GOOD PHD THESIS?",
+			"SessionName": "Workshop PhD",
+			"Authors": "Veljko Milutinovic, Igor Tartalja, Jelica Protic",
+			"StartTime": "02:00:00 PM"
+		},
+		{
+			"PresentationName": "Cloud App Architecture",
+			"SessionName": "Workshop CloudTech",
+			"Authors": "Thomas Erl",
+			"StartTime": "02:00:00 PM"
+		},
+		{
+			"PresentationName": "***\"VR in medicine",
+			"SessionName": "Closing ceremony",
+			"Authors": "Branko Milutinovic",
+			"StartTime": "05:00:00 PM"
+		},
+		{
+			"PresentationName": "Conference Awards",
+			"SessionName": "Closing ceremony",
+			"Authors": "George Paunovic",
+			"StartTime": "05:30:00 PM"
+		}
+	] }
+}
