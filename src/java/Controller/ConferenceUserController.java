@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.ConfPicture;
 import Model.Conference;
 import Model.HibernateHelper;
 import Model.Message;
@@ -12,13 +13,26 @@ import Model.SessionConf;
 import Model.User;
 import Model.UserConference;
 import Model.UserSession;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -43,10 +57,53 @@ public class ConferenceUserController {
     private List<Message> unreadMsgs;
     private List<Message> readMsgs;
     
+    private List<ConfPicture> pictures;
+    
+    private Conference selectedConference;
+    
     public ConferenceUserController() {
         allConferences = Conference.getAll();
         filteredConferences = new ArrayList<>();
         
+    }
+    
+    public void preloadPictures(Conference conference) {
+        pictures = new ArrayList<>();
+        pictures.addAll(conference.getPictures());
+        selectedConference = conference;
+    }
+    
+//    public final String UPLOADDIR = "C:\\workspace\\UMRI\\pia\\";
+//    public final String CONFPICTURE = "uploads\\conferencePictures\\";
+    public final String UPLOADDIR = "uploads\\";
+    public final String CONFPICTURE = "conferencePictures\\";
+    
+    public void uploadPicture(FileUploadEvent event) {
+        UploadedFile fileUploaded = event.getFile();
+        
+        String fileName = fileUploaded.getFileName();
+        
+        String relativePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        String conferenceIdFolder = selectedConference.getConferenceId() + "\\";
+        String finalDir = relativePath + UPLOADDIR + CONFPICTURE + conferenceIdFolder;
+                
+        Path folder = Paths.get(finalDir);
+        Path filePath  = Paths.get(finalDir + fileName);
+        String extension = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
+        String filename = fileName.substring(0,fileName.lastIndexOf('.'));
+        try {
+            // Make sure the directories exist
+            Files.createDirectories(folder);
+            
+            try (InputStream in = new ByteArrayInputStream(fileUploaded.getContents())) {
+                Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        pictures.add(ConfPicture.add(selectedConference, UPLOADDIR + CONFPICTURE + conferenceIdFolder + fileName));
     }
     
     public void sendMessage(User currUser) {
@@ -210,6 +267,24 @@ public class ConferenceUserController {
 
     public void setReadMsgs(List<Message> readMsgs) {
         this.readMsgs = readMsgs;
+    }
+
+    public List<ConfPicture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<ConfPicture> pictures) {
+        this.pictures = pictures;
+    }
+
+    
+
+    public Conference getSelectedConference() {
+        return selectedConference;
+    }
+
+    public void setSelectedConference(Conference selectedConference) {
+        this.selectedConference = selectedConference;
     }
     
     

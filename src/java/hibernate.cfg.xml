@@ -60,5 +60,6 @@ Contributor(s):
     <mapping resource="Message.hbm.xml"/>
     <mapping resource="UserConference.hbm.xml"/>
     <mapping resource="UserSession.hbm.xml"/>
+    <mapping resource="ConfPicture.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

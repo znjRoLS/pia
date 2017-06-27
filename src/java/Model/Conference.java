@@ -49,6 +49,7 @@ public class Conference {
     private Set<ModeratorConference> moderators = new HashSet<ModeratorConference>(); //moderators
     private Set<SessionConf> sessions = new HashSet<>(); //sessions
     private Set<UserConference> users = new HashSet<>(); //reg users
+    private Set<ConfPicture> pictures = new HashSet<>();
     
     public void checkIfRegistered(User user) {
         Session session = HibernateHelper.getFactory().openSession();
@@ -319,6 +320,7 @@ public class Conference {
     public boolean isCanRegister() {
         return canRegister;
     }
+    
 
     public void setCanRegister(boolean canRegister) {
         this.canRegister = canRegister;
@@ -330,6 +332,14 @@ public class Conference {
 
     public void setRegistred(boolean registred) {
         this.registred = registred;
+    }
+
+    public Set<ConfPicture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(Set<ConfPicture> pictures) {
+        this.pictures = pictures;
     }
     
     

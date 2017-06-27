@@ -86,5 +86,12 @@ Contributor(s):
         </key>
         <one-to-many class="Model.UserConference" />
     </set>
+    <set name="pictures" table="conf_picture"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="conference" not-null="true" />
+        </key>
+        <one-to-many class="Model.ConfPicture" />
+    </set>
  </class>
 </hibernate-mapping>
