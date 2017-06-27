@@ -59,6 +59,7 @@ public class User {
     private Set<AuthorPresentation> presentations = new HashSet<AuthorPresentation>(); // for presentations
     private Set<Message> messages = new HashSet<Message>(); // for messages
     private Set<UserConference> conferencesUser = new HashSet<>(); // for attends
+    private Set<UserSession> sessions = new HashSet<>(); // for sessions
     
     
     public final String UPLOADDIR = "C:\\workspace\\UMRI\\pia\\";
@@ -569,6 +570,14 @@ public class User {
             }
         }
         return msgs;
+    }
+
+    public Set<UserSession> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Set<UserSession> sessions) {
+        this.sessions = sessions;
     }
     
     

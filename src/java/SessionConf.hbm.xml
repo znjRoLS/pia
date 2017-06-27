@@ -64,5 +64,13 @@ Contributor(s):
     <many-to-one name="conference" class="Model.Conference" fetch="select">
         <column name="conference" not-null="true" />
     </many-to-one>
+    
+    <set name="users" table="user_session"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="session" not-null="true" />
+        </key>
+        <one-to-many class="Model.UserSession" />
+    </set>
   </class>
 </hibernate-mapping>

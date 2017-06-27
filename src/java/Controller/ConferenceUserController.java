@@ -8,8 +8,10 @@ package Controller;
 import Model.Conference;
 import Model.HibernateHelper;
 import Model.Message;
+import Model.SessionConf;
 import Model.User;
 import Model.UserConference;
+import Model.UserSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -123,6 +125,11 @@ public class ConferenceUserController {
     public void registerForConference(User user, Conference conference) {
         UserConference.addNew(user, conference);
         conference.setRegistred(true);
+    }
+    
+    public void registerForSession(User user, SessionConf session) {
+        UserSession.addNew(user, session);
+        session.setRegistered(true);
     }
 
     public List<Conference> getAllConferences() {

@@ -253,13 +253,14 @@ public class ConferenceModeratorController {
                             } catch (Exception e) {}
                         }
 
-                        sessions.add(sessionConf);
-                        session.save(sessionConf);
-
-                        if (sessionConf.getRoom() != null) {
-                            sessionConf.setRoomName(sessionConf.getRoom().getName());
-                        }
+                        
                      }
+                    sessions.add(sessionConf);
+                    session.saveOrUpdate(sessionConf);
+
+                    if (sessionConf.getRoom() != null) {
+                        sessionConf.setRoomName(sessionConf.getRoom().getName());
+                    }
                  }
              }
              else {
@@ -307,7 +308,7 @@ public class ConferenceModeratorController {
                             user.setFirst_name(singleAuthor.split(" ")[0]);
                             user.setLast_name(singleAuthor.split(" ").length > 1 ? singleAuthor.split(" ")[1] : "");
                             user.setType(User.UserType.USER.ordinal());
-                            session.save(user);
+                            session.saveOrUpdate(user);
                         }
 
                         AuthorPresentation authPres = new AuthorPresentation();
@@ -413,7 +414,7 @@ public class ConferenceModeratorController {
                     }
 
                     sessions.add(sessionConf);
-                    session.save(sessionConf);
+                    session.saveOrUpdate(sessionConf);
                     
                     if (sessionConf.getRoom() != null) {
                         sessionConf.setRoomName(sessionConf.getRoom().getName());
@@ -450,7 +451,7 @@ public class ConferenceModeratorController {
 
                     }
 
-                    session.save(presentation);
+                    session.saveOrUpdate(presentation);
                     presentations.add(presentation);
                     
                     String authors = arr.getJSONObject(i).getString("Authors");
@@ -464,14 +465,14 @@ public class ConferenceModeratorController {
                             user.setFirst_name(singleAuthor.split(" ")[0]);
                             user.setLast_name(singleAuthor.split(" ").length > 1 ? singleAuthor.split(" ")[1] : "");
                             user.setType(User.UserType.USER.ordinal());
-                            session.save(user);
+                            session.saveOrUpdate(user);
                         }
 
                         AuthorPresentation authPres = new AuthorPresentation();
                         authPres.setAuthor(user);
                         authPres.setPresentation(presentation);
 
-                        session.save(authPres);
+                        session.saveOrUpdate(authPres);
                         presentation.getAuthors().add(authPres);
                     }
                     
@@ -528,6 +529,11 @@ public class ConferenceModeratorController {
             return "login";
         }
         
+        
+        if (currentUser != null) {
+            conf.checkIfRegistered(currentUser);
+        }
+        
         registeredUsers = Conference.getRegistredUsers(conf);
         
         sessions = new ArrayList<>();
@@ -537,7 +543,20 @@ public class ConferenceModeratorController {
                 ses.setRoomName(ses.getRoom().getName());
             }
             
+            //ses.getPresentations()
         }
+        
+        for (SessionConf ses : sessions) {
+            ses.checkIfRegistered(currentUser);
+        }
+        
+        sessions.sort((t, t1) -> {
+            if (t.getDate().after(t1.getDate()) || (t.getDate().equals(t1.getDate()) && t.getStartTime().after(t1.getStartTime())))
+                return 1;
+            if (t.getDate().before(t1.getDate()) || (t.getDate().equals(t1.getDate()) && t.getStartTime().before(t1.getStartTime())))
+                return -1;
+            return 0;
+        });
         
         presentations = Presentation.getByConference(selectedConference);
         
@@ -574,7 +593,7 @@ public class ConferenceModeratorController {
                 }
             }
             
-            session.save(presentation);
+            session.saveOrUpdate(presentation);
             
             for (User author : presentation.getAuthorNames()) {
                 User user = User.FindByNameSurname(author.getFirst_name(), author.getLast_name());
@@ -582,14 +601,14 @@ public class ConferenceModeratorController {
                 if (user == null) {
                     user = author;
                     user.setType(User.UserType.USER.ordinal());
-                    session.save(user);
+                    session.saveOrUpdate(user);
                 }
 
                 AuthorPresentation authPres = new AuthorPresentation();
                 authPres.setAuthor(user);
                 authPres.setPresentation(presentation);
 
-                session.save(authPres);
+                session.saveOrUpdate(authPres);
                 presentation.getAuthors().add(authPres);
             }
 
@@ -602,9 +621,13 @@ public class ConferenceModeratorController {
                 }
             }
             
-            sessionConf.setConference(selectedConference);
+            if (sessionConf.getConference() != null) {
+                session.update(sessionConf);
+            } else {
+                sessionConf.setConference(selectedConference);
             
-            session.save(sessionConf);
+                session.saveOrUpdate(sessionConf);
+            }
         }
         
         session.update(selectedConference);

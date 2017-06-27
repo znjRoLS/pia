@@ -79,7 +79,7 @@ Contributor(s):
         </key>
         <one-to-many class="Model.SessionConf" />
     </set>
-    <set name="users" table="muser_conference"
+    <set name="users" table="user_conference"
                             inverse="true" lazy="true" fetch="select">
         <key>
             <column name="conference" not-null="true" />

@@ -103,6 +103,14 @@ Contributor(s):
         <one-to-many class="Model.UserConference" />
     </set>
     
+    <set name="sessions" table="user_session"
+                            inverse="true" lazy="true" fetch="select">
+        <key>
+            <column name="user" not-null="true" />
+        </key>
+        <one-to-many class="Model.UserSession" />
+    </set>
+    
  </class>
 
 </hibernate-mapping>

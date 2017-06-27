@@ -102,7 +102,7 @@ public class ConferenceAdminController {
             msg.setTime(new Date());
             msg.setUser(user);
             
-            session.save(msg);
+            session.saveOrUpdate(msg);
             
             UserConference userConf = new UserConference();
             userConf.setUser(user);
@@ -144,14 +144,14 @@ public class ConferenceAdminController {
         
         conference.setLocation(selectedLocation);
         
-        session.save(conference);
+        session.saveOrUpdate(conference);
         
         for (User u : moderators) {
             if (Arrays.asList(selectedModeratorNames).contains(u.getUsername())) {
                 ModeratorConference mc = new ModeratorConference();
                 mc.setUser_id(u);
                 mc.setConference_id(conference);
-                session.save(mc);
+                session.saveOrUpdate(mc);
             }
         }
         

@@ -46,8 +46,6 @@ public class LoginController {
     private User.UserType userType;
     private User currentUser;
     
-    private List<Message> unreadMsgs;
-    private List<Message> readMsgs;
     
     public String ChangePassword() {
         if (!currentUser.getPassword().equals(password)) {

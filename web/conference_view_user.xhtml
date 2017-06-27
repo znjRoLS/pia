@@ -15,15 +15,17 @@
             <p:dataList  value="#{conference_user.registredConferences}" var="conf" >
                                 <!-- Project One -->
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3>#{conf.name}</h3>
-                        <h4>#{conf.place}</h4>
-                        <p>Will take place from #{conf.startDate} to #{conf.endDate}</p>
-                        <p:commandButton id="comm1" action="#{conference_moderator.viewConference(login.currentUser, conf)}" class="btn btn-primary" value="View conference"> <span class="glyphicon glyphicon-chevron-right"></span></p:commandButton>
+                            <div class="col-md-12">
+                                <h3>#{conf.name}</h3>
+                                <h4>#{conf.place}</h4>
+                                <p>Will take place from #{conf.startDate} to #{conf.endDate}</p>
+                                <p:commandButton action="#{conference_moderator.viewConference(login.currentUser, conf)}" class="btn btn-primary" value="View conference"> <span class="glyphicon glyphicon-chevron-right"></span></p:commandButton>
                                 
-                    </div>
-                </div>
-                <!-- /.row -->
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        
+                        <hr> </hr>
 
                 <hr> </hr>
            </p:dataList>
